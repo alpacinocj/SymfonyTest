@@ -64,3 +64,10 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+assetic:
+    debug: "%kernel.debug%"
+    use_controller: true        # 该参数要置为true, 否则解析出来的地址报404
+    # bundles:  [ ]             # 该参数设置则只对指定bundle生效, 否则全局生效
+    filters:
+        cssrewrite: ~

@@ -3,7 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 
 defined('APP_ENV') or define('APP_ENV', 'dev');
-defined('APP_DEBUG') or define('APP_DEBUG', false);
+defined('APP_DEBUG') or define('APP_DEBUG', true);
 
 
 require __DIR__.'/../app/autoload.php';
