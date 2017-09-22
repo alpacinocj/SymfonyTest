@@ -66,10 +66,6 @@ class ComposerStaticInit59324652c5091f56d450974274d96ffc
             'Doctrine\\Bundle\\DoctrineCacheBundle\\' => 36,
             'Doctrine\\Bundle\\DoctrineBundle\\' => 31,
         ),
-        'A' => 
-        array (
-            'AppBundle\\' => 10,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -177,10 +173,10 @@ class ComposerStaticInit59324652c5091f56d450974274d96ffc
         array (
             0 => __DIR__ . '/..' . '/doctrine/doctrine-bundle',
         ),
-        'AppBundle\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/AppBundle',
-        ),
+    );
+
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/../..' . '/src',
     );
 
     public static $prefixesPsr0 = array (
@@ -259,6 +255,7 @@ class ComposerStaticInit59324652c5091f56d450974274d96ffc
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit59324652c5091f56d450974274d96ffc::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit59324652c5091f56d450974274d96ffc::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit59324652c5091f56d450974274d96ffc::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit59324652c5091f56d450974274d96ffc::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit59324652c5091f56d450974274d96ffc::$classMap;
 
