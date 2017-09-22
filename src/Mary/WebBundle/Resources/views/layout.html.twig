@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    {% block styles %}
+        {% block global_styles %}
+            <link rel="stylesheet" href="{{ asset('public/css/normalize-7.0.0.css') }}">
+            <link rel="stylesheet" href="{{ asset('public/css/global.css') }}">
+            {#{% stylesheets 'bundles/public/css/*' filter='cssrewrite' %}
+                <link rel="stylesheet" href="{{ asset_url }}">
+            {% endstylesheets %}#}
+        {% endblock %}
+        {% block page_styles %}{% endblock %}
+    {% endblock %}
+    {% block global_scripts %}
+        <script src="{{ asset('public/js/jquery-3.2.1.min.js') }}"></script>
+        <script src="{{ asset('public/js/global.js') }}"></script>
+        {#{% javascripts 'bundles/public/js/*' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}#}
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    {% block header %}
+        {% include 'MaryWebBundle::header.html.twig' %}
+    {% endblock %}
+    {% block main %}{% endblock %}
+    {% block footer %}
+        {% include 'MaryWebBundle::footer.html.twig' %}
+    {% endblock %}
+</div>
+{% block page_scripts %}{% endblock %}
+</body>
+</html>

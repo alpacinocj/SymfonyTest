@@ -1,1 +1,5 @@
-Hello {{ name }}, Welcome !
+{% extends 'MaryWebBundle::layout.html.twig' %}
+
+{% block main %}
+    <p>Hello {{ name }}, Welcome !</p>
+{% endblock %}
