@@ -1,3 +1,7 @@
 mary_web_homepage:
-    path:     /
+    path: /
     defaults: { _controller: MaryWebBundle:Default:index }
+
+hello_page:
+    path: /hello/{name}
+    defaults: { _controller: MaryWebBundle:Default:hello }
