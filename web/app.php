@@ -2,10 +2,14 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
+defined('APP_ENV') or define('APP_ENV', 'dev');
+defined('APP_DEBUG') or define('APP_DEBUG', false);
+
+
 require __DIR__.'/../app/autoload.php';
 include_once __DIR__.'/../app/bootstrap.php.cache';
 
-$kernel = new AppKernel('prod', false);
+$kernel = new AppKernel(APP_ENV, APP_DEBUG);
 $kernel->loadClassCache();
 //$kernel = new AppCache($kernel);
 
