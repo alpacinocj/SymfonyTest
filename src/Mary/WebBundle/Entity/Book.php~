@@ -1,0 +1,108 @@
+<?php
+
+namespace Mary\WebBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * @ORM\Entity(repositoryClass="BookRepository")
+ * @ORM\Table(name="book")
+ */
+class Book
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $title;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    protected $price;
+
+    /**
+     * @ManyToMany(targetEntity="User", inversedBy="books")
+     * @JoinTable(name="users_books")
+     */
+    private $users;
+
+    /**
+     * @ManyToOne(targetEntity="Author", inversedBy="books")
+     * @JoinColumn(name="author_id", referencedColumnName="id")
+     */
+    private $author;
+
+    /**
+     * @ManyToMany(targetEntity="Category", inversedBy="books")
+     * @JoinTable(name="categories_books")
+     */
+    private $categories;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Book
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set price
+     *
+     * @param float $price
+     * @return Book
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return float 
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+}
