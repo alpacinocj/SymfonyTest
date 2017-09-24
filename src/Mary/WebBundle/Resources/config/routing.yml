@@ -5,3 +5,31 @@ mary_web_homepage:
 hello_page:
     path: /hello/{name}
     defaults: { _controller: MaryWebBundle:Default:hello }
+
+db_index:
+    path: /db
+    defaults: { _controller: MaryWebBundle:Database:index }
+
+db_add_user:
+    path: /db/add/user
+    defaults: { _controller: MaryWebBundle:Database:addUser }
+
+db_add_author:
+    path: /db/add/author
+    defaults: { _controller: MaryWebBundle:Database:addAuthor }
+
+db_add_book:
+    path: /db/add/book
+    defaults: { _controller: MaryWebBundle:Database:addBook }
+
+get_author_books:
+    path: /db/get/author/{authorId}/books
+    defaults: { _controller: MaryWebBundle:Database:getAuthorBooks }
+
+update_user_age:
+    path: /db/update/user/{userId}/age/{age}
+    defaults: { _controller: MaryWebBundle:Database:updateUserAge }
+
+remove_user:
+    path: /db/remove/user/{userId}
+    defaults: { _controller: MaryWebBundle:Database:removeUser }

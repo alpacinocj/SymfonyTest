@@ -138,7 +138,7 @@ class User
      */
     public function setAge($age)
     {
-        $this->age = $age;
+        $this->age = abs($age);
 
         return $this;
     }
