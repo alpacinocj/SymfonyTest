@@ -17,4 +17,11 @@ class DefaultController extends BaseController
             'name' => $name
         ]);
     }
+
+    public function showMessageAction(Request $request, $message)
+    {
+        return $this->render('MaryWebBundle:Default:show_message.html.twig', [
+            'message' => $message
+        ]);
+    }
 }

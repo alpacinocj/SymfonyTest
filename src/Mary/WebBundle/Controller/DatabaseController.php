@@ -2,6 +2,7 @@
 
 namespace Mary\WebBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Mary\WebBundle\Entity\Author;
 use Mary\WebBundle\Entity\Book;
@@ -102,5 +103,13 @@ class DatabaseController extends BaseController
         return $this->render('MaryWebBundle:Database:index.html.twig', [
             'message' => 'remove user success'
         ]);
+    }
+
+    public function findUserByRawSqlAction(Request $request, $userId)
+    {
+        $conn = $this->get('database_connection');
+        $user = $conn->fetchAssoc("select * from `user` where id = {$userId} limit 1");
+        Debug::dump($user);
+        exit;
     }
 }

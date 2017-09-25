@@ -6,6 +6,10 @@ hello_page:
     path: /hello/{name}
     defaults: { _controller: MaryWebBundle:Default:hello }
 
+show_message:
+    path: /show/message/{message}
+    defaults: { _controller: MaryWebBundle:Default:showMessage}
+
 db_index:
     path: /db
     defaults: { _controller: MaryWebBundle:Database:index }
@@ -22,14 +26,26 @@ db_add_book:
     path: /db/add/book
     defaults: { _controller: MaryWebBundle:Database:addBook }
 
-show_author_books:
+db_show_author_books:
     path: /db/show/author/{authorId}/books
     defaults: { _controller: MaryWebBundle:Database:showAuthorBooks }
 
-update_user_age:
+db_update_user_age:
     path: /db/update/user/{userId}/age/{age}
     defaults: { _controller: MaryWebBundle:Database:updateUserAge }
 
-remove_user:
+db_remove_user:
     path: /db/remove/user/{userId}
     defaults: { _controller: MaryWebBundle:Database:removeUser }
+
+db_find_user_by_raw_sql:
+    path: /db/find/user/{userId}/by/raw/sql
+    defaults: { _controller: MaryWebBundle:Database:findUserByRawSql }
+
+form_index:
+    path: /form
+    defaults: { _controller: MaryWebBundle:Form:index }
+
+from_create_user:
+    path: /form/create/user
+    defaults: { _controller: MaryWebBundle:Form:createUser }

@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 defined('APP_ENV') or define('APP_ENV', 'dev');
 defined('APP_DEBUG') or define('APP_DEBUG', true);
-
+date_default_timezone_set('Asia/Shanghai');
 
 require __DIR__.'/../app/autoload.php';
 include_once __DIR__.'/../app/bootstrap.php.cache';
