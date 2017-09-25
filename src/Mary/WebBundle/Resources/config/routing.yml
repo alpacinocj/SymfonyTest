@@ -49,3 +49,7 @@ form_index:
 from_create_user:
     path: /form/create/user
     defaults: { _controller: MaryWebBundle:Form:createUser }
+
+from_create_user_validate:
+    path: /form/create/user/validate
+    defaults: { _controller: MaryWebBundle:Form:createUserValidate }

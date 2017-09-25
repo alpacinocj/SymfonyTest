@@ -1,5 +1,12 @@
 {% extends 'MaryWebBundle::layout.html.twig' %}
 
+{# 修改表单默认样式 #}
+{#{% form_theme userForm _self %}
+{%- block password_widget -%}
+    {%- set type = type|default('password') -%}
+    123...{{ block('form_widget_simple') }}
+{%- endblock password_widget -%}#}
+
 {% block main %}
     <h3>User Register</h3>
     {{ form(userForm) }}

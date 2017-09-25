@@ -8,7 +8,7 @@ framework:
     profiler: { only_exceptions: false }
 
 twig:
-    auto_reload: false
+    auto_reload: true
 
 web_profiler:
     toolbar: false
