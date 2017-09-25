@@ -1,4 +1,7 @@
+parameters:
+    name: 'Tom'
+
 services:
-#    mary_web.example:
-#        class: Mary\WebBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    mary_web.hello:
+        class: Mary\WebBundle\Service\HelloService
+        arguments: ["%name%"]

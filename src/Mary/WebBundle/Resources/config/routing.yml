@@ -61,3 +61,11 @@ from_create_user:
 from_create_user_validate:
     path: /form/create/user/validate
     defaults: { _controller: MaryWebBundle:Form:createUserValidate }
+
+service_index:
+    path: /service
+    defaults: { _controller: MaryWebBundle:Service:index }
+
+service_call:
+    path: /service/call
+    defaults: { _controller: MaryWebBundle:Service:call }
