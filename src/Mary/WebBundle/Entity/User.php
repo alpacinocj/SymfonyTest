@@ -246,7 +246,6 @@ class User
     /**
      * 该方法在persist()之前调用
      * @ORM\PrePersist()
-     * @ORM\PreUpdate()
      */
     public function PrePersist()
     {
@@ -254,7 +253,15 @@ class User
         if (empty($this->getCreatedTime())) {
             $this->setCreatedTime(time());
         }
-        // 设置更新时间
+        $this->setUpdatedTime(time());
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function PreUpdate()
+    {
+        // 重置更新时间
         $this->setUpdatedTime(time());
     }
 }
