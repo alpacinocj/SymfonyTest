@@ -8,7 +8,15 @@ hello_page:
 
 show_message:
     path: /show/message/{message}
-    defaults: { _controller: MaryWebBundle:Default:showMessage}
+    defaults: { _controller: MaryWebBundle:Default:showMessage }
+
+config_index:
+    path: /config
+    defaults: { _controller: MaryWebBundle:Config:index }
+
+config_show_parameter:
+    path: /config/show/parameter/{key}
+    defaults: { _controller: MaryWebBundle:Config:showParameter }
 
 db_index:
     path: /db
