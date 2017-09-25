@@ -1,0 +1,21 @@
+{% extends 'MaryWebBundle::layout.html.twig' %}
+
+{# 重置表单默认样式, 参考form_div_layout.html.twig #}
+{%- block form_row -%}
+    <div>
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock form_row -%}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <ul class="form-errors">
+            {# 限制只显示一条 #}
+            {%- for key, error in errors if key == 0 -%}
+                <li>{{ error.message }}</li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{%- endblock form_errors -%}

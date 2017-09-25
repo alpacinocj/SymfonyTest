@@ -9,13 +9,13 @@
     {% block styles %}
         {% block global_styles %}
             {# 影响页面响应速度, 暂时关闭 #}
-            {#{% stylesheets
+            {% stylesheets
                 'public/css/normalize-7.0.0.css'
                 'public/css/global.css'
                 filter='cssrewrite'
             %}
                 <link rel="stylesheet" href="{{ asset_url }}">
-            {% endstylesheets %}#}
+            {% endstylesheets %}
         {% endblock %}
         {% block page_styles %}{% endblock %}
     {% endblock %}
