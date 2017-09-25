@@ -16,7 +16,7 @@ class DatabaseController extends BaseController
 
     public function addUserAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEntityManager();
         $user = new User();
         $user->setUsername('jack');
         $user->setAge(21);
@@ -30,7 +30,7 @@ class DatabaseController extends BaseController
 
     public function addAuthorAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getEntityManager();
         $author = new Author();
         $author->setName('Tomas');
         $author->setBirth('1956-07-21');
@@ -43,14 +43,15 @@ class DatabaseController extends BaseController
 
     public function addBookAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $author = $em->getRepository('MaryWebBundle:Author')->findOneBy(['id' => 1]);
+        $em = $this->getEntityManager();
+        $author = $this->getAuthorRepository()->findOneBy(['id' => 1]);
         if (empty($author)) {
             echo 'Author does not existed'; exit;
         }
+        $prices = range(20, 100);
         $book = new Book();
         $book->setTitle('Jane Eyre');
-        $book->setPrice(120.88);
+        $book->setPrice($prices[array_rand($prices)]);
         $book->setAuthor($author);
         $em->persist($book);
         $em->flush();
@@ -59,13 +60,9 @@ class DatabaseController extends BaseController
         ]);
     }
 
-    public function getAuthorBooksAction(Request $request, $authorId)
+    public function showAuthorBooksAction(Request $request, $authorId)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        /**
-         * @var $author \Mary\WebBundle\Entity\Author
-         */
-        $author = $em->getRepository('MaryWebBundle:Author')->findOneBy(['id' => $authorId]);
+        $author = $this->getAuthorRepository()->findOneBy(['id' => $authorId]);
         if (empty($author)) {
             echo 'Author does not existed'; exit;
         }
@@ -80,11 +77,8 @@ class DatabaseController extends BaseController
 
     public function updateUserAgeAction(Request $request, $userId, $age)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        /**
-         * @var $user \Mary\WebBundle\Entity\User
-         */
-        $user = $em->getRepository('MaryWebBundle:User')->findOneBy(['id' => $userId]);
+        $em = $this->getEntityManager();
+        $user = $this->getUserRepository()->findOneBy(['id' => $userId]);
         if (empty($user)) {
             echo 'User does not existed'; exit;
         }
@@ -98,11 +92,8 @@ class DatabaseController extends BaseController
 
     public function removeUserAction(Request $request, $userId)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        /**
-         * @var $user \Mary\WebBundle\Entity\User
-         */
-        $user = $em->getRepository('MaryWebBundle:User')->findOneBy(['id' => $userId]);
+        $em = $this->getEntityManager();
+        $user = $this->getUserRepository()->findOneBy(['id' => $userId]);
         if (empty($user)) {
             echo 'User does not existed'; exit;
         }

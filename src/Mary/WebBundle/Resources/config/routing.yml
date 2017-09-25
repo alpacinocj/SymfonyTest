@@ -22,9 +22,9 @@ db_add_book:
     path: /db/add/book
     defaults: { _controller: MaryWebBundle:Database:addBook }
 
-get_author_books:
-    path: /db/get/author/{authorId}/books
-    defaults: { _controller: MaryWebBundle:Database:getAuthorBooks }
+show_author_books:
+    path: /db/show/author/{authorId}/books
+    defaults: { _controller: MaryWebBundle:Database:showAuthorBooks }
 
 update_user_age:
     path: /db/update/user/{userId}/age/{age}

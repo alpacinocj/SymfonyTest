@@ -35,6 +35,16 @@ class User
     protected $age;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $created_time;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $updated_time;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -121,5 +131,68 @@ class User
     public function getProfile()
     {
         return $this->profile;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set age
+     *
+     * @param integer $age
+     * @return User
+     */
+    public function setAge($age)
+    {
+        $this->age = abs($age);
+
+        return $this;
+    }
+
+    /**
+     * Get age
+     *
+     * @return integer 
+     */
+    public function getAge()
+    {
+        return $this->age;
+    }
+
+    /**
+     * Add books
+     *
+     * @param \Mary\WebBundle\Entity\Book $books
+     * @return User
+     */
+    public function addBook(\Mary\WebBundle\Entity\Book $books)
+    {
+        $this->books[] = $books;
+
+        return $this;
+    }
+
+    /**
+     * Remove books
+     *
+     * @param \Mary\WebBundle\Entity\Book $books
+     */
+    public function removeBook(\Mary\WebBundle\Entity\Book $books)
+    {
+        $this->books->removeElement($books);
+    }
+
+    /**
+     * Get books
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBooks()
+    {
+        return $this->books;
     }
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping\ManyToMany;
 /**
  * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(name="user")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User
 {
@@ -33,6 +34,16 @@ class User
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $age;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $created_time;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $updated_time;
 
     /**
      * Get id
@@ -184,5 +195,66 @@ class User
     public function getBooks()
     {
         return $this->books;
+    }
+
+    /**
+     * Set created_time
+     *
+     * @param integer $createdTime
+     * @return User
+     */
+    public function setCreatedTime($createdTime)
+    {
+        $this->created_time = $createdTime;
+
+        return $this;
+    }
+
+    /**
+     * Get created_time
+     *
+     * @return integer 
+     */
+    public function getCreatedTime()
+    {
+        return $this->created_time;
+    }
+
+    /**
+     * Set updated_time
+     *
+     * @param integer $updatedTime
+     * @return User
+     */
+    public function setUpdatedTime($updatedTime)
+    {
+        $this->updated_time = $updatedTime;
+
+        return $this;
+    }
+
+    /**
+     * Get updated_time
+     *
+     * @return integer 
+     */
+    public function getUpdatedTime()
+    {
+        return $this->updated_time;
+    }
+
+    /**
+     * 该方法在persist()之前调用
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function PrePersist()
+    {
+        // 设置创建时间
+        if (empty($this->getCreatedTime())) {
+            $this->setCreatedTime(time());
+        }
+        // 设置更新时间
+        $this->setUpdatedTime(time());
     }
 }

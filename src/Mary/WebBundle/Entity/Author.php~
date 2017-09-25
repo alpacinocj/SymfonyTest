@@ -96,4 +96,78 @@ class Author
     {
         return $this->birth;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add books
+     *
+     * @param \Mary\WebBundle\Entity\Book $books
+     * @return Author
+     */
+    public function addBook(\Mary\WebBundle\Entity\Book $books)
+    {
+        $this->books[] = $books;
+
+        return $this;
+    }
+
+    /**
+     * Remove books
+     *
+     * @param \Mary\WebBundle\Entity\Book $books
+     */
+    public function removeBook(\Mary\WebBundle\Entity\Book $books)
+    {
+        $this->books->removeElement($books);
+    }
+
+    /**
+     * Get books
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBooks()
+    {
+        return $this->books;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \Mary\WebBundle\Entity\Category $categories
+     * @return Author
+     */
+    public function addCategory(\Mary\WebBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \Mary\WebBundle\Entity\Category $categories
+     */
+    public function removeCategory(\Mary\WebBundle\Entity\Category $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
 }
