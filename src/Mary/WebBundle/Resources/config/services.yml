@@ -1,7 +1,8 @@
-parameters:
-    name: 'Tom'
-
 services:
-    mary_web.hello:
+    mary.webbundle.hello:
         class: Mary\WebBundle\Service\HelloService
-        arguments: ["%name%"]
+        arguments:
+            $language: 'en'
+            $logger: '@logger'
+        tags:
+            - { name: monolog.logger, channel: service }

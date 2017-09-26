@@ -13,7 +13,7 @@ class ServiceController extends BaseController
 
     public function callAction()
     {
-        echo $this->container->get('mary_web.hello')->say();
+        echo $this->container->get('mary.webbundle.hello')->say('Tom');
         exit;
     }
 }
