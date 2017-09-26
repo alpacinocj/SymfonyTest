@@ -58,9 +58,13 @@ from_create_user:
     path: /form/create/user
     defaults: { _controller: MaryWebBundle:Form:createUser }
 
-from_create_user_validate:
-    path: /form/create/user/validate
-    defaults: { _controller: MaryWebBundle:Form:createUserValidate }
+from_register:
+    path: /form/register
+    defaults: { _controller: MaryWebBundle:Form:register }
+
+from_login:
+    path: /form/login
+    defaults: { _controller: MaryWebBundle:Form:login }
 
 service_index:
     path: /service

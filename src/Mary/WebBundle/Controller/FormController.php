@@ -2,11 +2,12 @@
 
 namespace Mary\WebBundle\Controller;
 
+use Mary\Common\Form\UserForm;
 use Mary\WebBundle\Entity\User;
+use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use Mary\Common\Validator\NotEmpty;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\Range;
+use Doctrine\Common\Util\Debug;
 
 class FormController extends BaseController
 {
@@ -42,47 +43,17 @@ class FormController extends BaseController
         ]);
     }
 
-    public function createUserValidateAction(Request $request)
+    public function registerAction(Request $request)
     {
-        $user = new User();
+        $userEntity = new User();
 
-        $userForm = $this->createFormBuilder($user)
-            ->add('username', 'text', [
-                'constraints' => [
-                    new NotEmpty([
-                        'message' => '用户名不能为空'
-                    ]),
-                    new Length([
-                        'min' => 2,
-                        'max' => 10,
-                        'minMessage' => '最少{{ limit }}个字符',
-                        'maxMessage' => '最多{{ limit }}个字符',
-                    ])
-                ]
-            ])
-            ->add('password', 'password', [
-                'constraints' => [
-                    new NotEmpty([
-                        'message' => '密码不能为空'
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'max' => 20,
-                        'minMessage' => '最少{{ limit }}个字符',
-                        'maxMessage' => '最多{{ limit }}个字符',
-                    ]),
-                ]
-            ])
-            ->add('age', 'text', [
-                'constraints' => [
-                    new Range([
-                        'min' => 0,
-                        'max' => 120,
-                        'minMessage' => '不能小于{{ limit }}',
-                        'maxMessage' => '不能大于{{ limit }}',
-                    ]),
-                ]
-            ])
+        $userForm = new UserForm($this->container, $userEntity);
+        $userFormBuilder = $userForm->getFormBuilder();
+
+        /**
+         * @var $userForm Form
+         */
+        $userForm = $userFormBuilder
             ->add('submit', 'submit', ['attr' => ['formnovalidate' => 'formnovalidate']])   // 关闭HTML5验证
             ->getForm();
 
@@ -91,14 +62,49 @@ class FormController extends BaseController
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
             $em = $this->getEntityManager();
-            $em->persist($user);
+            $em->persist($userEntity);
             $em->flush();
             return $this->redirectToRoute('show_message', [
                 'message' => 'Add user success !'
             ]);
         }
 
-        return $this->render('MaryWebBundle:Form:create_user.html.twig', [
+        return $this->render('MaryWebBundle:Form:register.html.twig', [
+            'userForm' => $userForm->createView()
+        ]);
+    }
+
+    public function loginAction(Request $request)
+    {
+        $userEntity = new User();
+
+        $userForm = new UserForm($this->container, $userEntity);
+        $userFormBuilder = $userForm->getFormBuilder();
+
+        /**
+         * @var $userForm Form
+         */
+        $userForm = $userFormBuilder
+            ->remove('age')
+            ->add('login', 'submit', ['attr' => ['formnovalidate' => 'formnovalidate']])
+            ->getForm();
+
+        // handle form
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $user = $this->getUserRepository()->findOneByName($userEntity->getUsername());
+            if (empty($user) || $user->getPassword() !== $userEntity->getPassword()) {
+                return $this->redirectToRoute('show_message', [
+                    'message' => '用户名或者密码错误'
+                ]);
+            }
+            return $this->redirectToRoute('show_message', [
+                'message' => '登录成功'
+            ]);
+        }
+
+        return $this->render('MaryWebBundle:Form:login.html.twig', [
             'userForm' => $userForm->createView()
         ]);
     }
