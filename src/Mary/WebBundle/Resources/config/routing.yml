@@ -69,3 +69,15 @@ service_index:
 service_call:
     path: /service/call
     defaults: { _controller: MaryWebBundle:Service:call }
+
+response_json:
+    path: /response/json
+    defaults: { _controller: MaryWebBundle:Response:json }
+
+response_json_success:
+    path: /response/json/success
+    defaults: { _controller: MaryWebBundle:Response:jsonSuccess }
+
+response_json_error:
+    path: /response/json/error
+    defaults: { _controller: MaryWebBundle:Response:jsonError }
