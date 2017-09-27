@@ -20,4 +20,5 @@ class UserRepository extends EntityRepository
     {
         return $this->findOneBy(['username' => $name]);
     }
+
 }

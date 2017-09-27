@@ -5,6 +5,7 @@ namespace Mary\WebBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Mary\Common\Util\Hash as HashUtil;
 
 /**
  * @ORM\Entity(repositoryClass="UserRepository")
@@ -50,6 +51,8 @@ class User
      */
     protected $updated_time;
 
+    private $passwordChanged = false;
+
     /**
      * Get id
      *
@@ -91,8 +94,8 @@ class User
      */
     public function setPassword($password)
     {
-        $this->password = md5($password);
-
+        $this->password = $password;
+        $this->passwordChanged = true;
         return $this;
     }
 
@@ -138,12 +141,16 @@ class User
     {
         return $this->profile;
     }
+
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->books = new \Doctrine\Common\Collections\ArrayCollection();
+        if (empty($this->getSalt())) {
+            $this->setSalt(HashUtil::createSalt());
+        }
     }
 
     /**
@@ -254,13 +261,11 @@ class User
      */
     public function PrePersist()
     {
-        // 设置创建时间
         if (empty($this->getCreatedTime())) {
             $this->setCreatedTime(time());
         }
         $this->setUpdatedTime(time());
-        // 设置盐值 TODO
-        $this->setSalt('');
+        $this->setPassword(HashUtil::createHash($this->getPassword(), $this->getSalt()));
     }
 
     /**
@@ -268,8 +273,10 @@ class User
      */
     public function PreUpdate()
     {
-        // 重置更新时间
         $this->setUpdatedTime(time());
+        if ($this->passwordChanged) {
+            $this->setPassword(HashUtil::createHash($this->getPassword(), $this->getSalt()));
+        }
     }
 
     /**
@@ -293,5 +300,15 @@ class User
     public function getSalt()
     {
         return $this->salt;
+    }
+
+    /**
+     * Validate password
+     * @param string $password
+     * @return boolean
+     */
+    public function validatePassword($password)
+    {
+        return HashUtil::validatePassword($password, $this->getSalt(), $this->getPassword());
     }
 }

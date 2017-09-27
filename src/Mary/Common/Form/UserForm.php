@@ -3,7 +3,6 @@
 namespace Mary\Common\Form;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Mary\WebBundle\Entity\User as UserEntity;
 use Mary\Common\Validator\NotEmpty;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Range;
@@ -11,7 +10,7 @@ use Symfony\Component\Form\FormBuilder;
 
 class UserForm extends BaseForm
 {
-    public function __construct(ContainerInterface $container, UserEntity $entity)
+    public function __construct(ContainerInterface $container, $entity)
     {
         parent::__construct($container, $entity);
     }

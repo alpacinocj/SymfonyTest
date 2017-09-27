@@ -94,7 +94,7 @@ class FormController extends BaseController
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
             $user = $this->getUserRepository()->findOneByName($userEntity->getUsername());
-            if (empty($user) || $user->getPassword() !== $userEntity->getPassword()) {
+            if (empty($user) || !$user->validatePassword($userEntity->getPassword())) {
                 return $this->redirectToRoute('show_message', [
                     'message' => '用户名或者密码错误'
                 ]);

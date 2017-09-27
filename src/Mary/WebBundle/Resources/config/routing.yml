@@ -42,6 +42,10 @@ db_update_user_age:
     path: /db/update/user/{userId}/age/{age}
     defaults: { _controller: MaryWebBundle:Database:updateUserAge }
 
+db_update_user_password:
+    path: /db/update/user/{userId}/password
+    defaults: { _controller: MaryWebBundle:Database:updateUserPassword }
+
 db_remove_user:
     path: /db/remove/user/{userId}
     defaults: { _controller: MaryWebBundle:Database:removeUser }

@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Mary\WebBundle\Entity\Author;
 use Mary\WebBundle\Entity\Book;
 use Mary\WebBundle\Entity\User;
+use Mary\Common\Form\UserForm;
+use Symfony\Component\Form\Form;
 
 class DatabaseController extends BaseController
 {
@@ -88,6 +90,40 @@ class DatabaseController extends BaseController
         $em->flush();
         return $this->render('MaryWebBundle:Database:index.html.twig', [
             'message' => 'update user success'
+        ]);
+    }
+
+    public function updateUserPasswordAction(Request $request, $userId)
+    {
+        $userEntity = $this->getUserRepository()->find($userId);
+        if (empty($userEntity)) {
+            echo 'User does not existed'; exit;
+        }
+        $userForm = new UserForm($this->container, $userEntity);
+        $userFormBuilder = $userForm->getFormBuilder();
+        /**
+         * @var $userForm Form
+         */
+        $userForm = $userFormBuilder
+            ->remove('username')
+            ->remove('age')
+            ->add('update', 'submit', ['attr' => ['formnovalidate' => 'formnovalidate']])
+            ->getForm();
+
+        // handle form
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $em = $this->getEntityManager();
+            $em->persist($userEntity);
+            $em->flush();
+            return $this->redirectToRoute('show_message', [
+                'message' => 'Update user success !'
+            ]);
+        }
+
+        return $this->render('MaryWebBundle:Form:update.html.twig', [
+            'userForm' => $userForm->createView()
         ]);
     }
 
