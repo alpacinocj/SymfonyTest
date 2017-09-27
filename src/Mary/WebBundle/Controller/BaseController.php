@@ -65,4 +65,17 @@ class BaseController extends Controller
         return $this->responseJson($errorData, Response::HTTP_INTERNAL_SERVER_ERROR, $headers);
     }
 
+    /**
+     * Translate message
+     * @param string $id 语言包文件中定义的KEY (xxx/translations/xxx.yml)
+     * @param array $params 额外参数
+     * @param string $domain 域 (默认有messages, admin, navigation, 默认取值为messages)
+     * @param string $locale 语言场景
+     * @return string
+     */
+    public function trans($id, $params = [], $domain = null, $locale = null)
+    {
+        return $this->container->get('translator')->trans($id, $params, $domain, $locale);
+    }
+
 }

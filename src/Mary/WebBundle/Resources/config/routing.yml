@@ -97,3 +97,19 @@ service_index:
 service_call:
     path: /service/call
     defaults: { _controller: MaryWebBundle:Service:call }
+
+translator_index:
+    path: /translator
+    defaults: { _controller: MaryWebBundle:Translator:index }
+
+translator_use_domain:
+    path: /translator/use/domain
+    defaults: { _controller: MaryWebBundle:Translator:useDomain }
+
+translator_pass_param:
+    path: /translator/pass/param/{name}
+    defaults: { _controller: MaryWebBundle:Translator:passParam }
+
+translator_force_locale:
+    path: /translator/force/locale/{locale}
+    defaults: { _controller: MaryWebBundle:Translator:forceLocale }
