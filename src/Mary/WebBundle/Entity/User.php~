@@ -31,7 +31,12 @@ class User
     protected $password;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string")
+     */
+    protected $salt;
+
+    /**
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     protected $age;
 

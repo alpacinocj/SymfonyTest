@@ -46,6 +46,10 @@ db_remove_user:
     path: /db/remove/user/{userId}
     defaults: { _controller: MaryWebBundle:Database:removeUser }
 
+db_remove_author:
+    path: /db/remove/author/{authorId}
+    defaults: { _controller: MaryWebBundle:Database:removeAuthor }
+
 db_find_user_by_raw_sql:
     path: /db/find/user/{userId}/by/raw/sql
     defaults: { _controller: MaryWebBundle:Database:findUserByRawSql }

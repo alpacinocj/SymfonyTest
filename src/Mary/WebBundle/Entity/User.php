@@ -31,7 +31,12 @@ class User
     protected $password;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", options={"default": ""})
+     */
+    protected $salt;
+
+    /**
+     * @ORM\Column(type="integer", options={"default": 0})
      */
     protected $age;
 
@@ -254,6 +259,8 @@ class User
             $this->setCreatedTime(time());
         }
         $this->setUpdatedTime(time());
+        // 设置盐值 TODO
+        $this->setSalt('');
     }
 
     /**
@@ -263,5 +270,28 @@ class User
     {
         // 重置更新时间
         $this->setUpdatedTime(time());
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string 
+     */
+    public function getSalt()
+    {
+        return $this->salt;
     }
 }

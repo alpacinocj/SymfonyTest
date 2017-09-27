@@ -105,6 +105,23 @@ class DatabaseController extends BaseController
         ]);
     }
 
+    /*
+     * 同时移除关联数据
+     * */
+    public function removeAuthorAction(Request $request, $authorId)
+    {
+        $em = $this->getEntityManager();
+        $author = $this->getAuthorRepository()->findOneBy(['id' => $authorId]);
+        if (empty($author)) {
+            echo 'Author does not existed'; exit;
+        }
+        $em->remove($author);
+        $em->flush();
+        return $this->render('MaryWebBundle:Database:index.html.twig', [
+            'message' => 'remove author success'
+        ]);
+    }
+
     public function findUserByRawSqlAction(Request $request, $userId)
     {
         $conn = $this->get('database_connection');
