@@ -78,6 +78,14 @@ logger_index:
     path: /logger
     defaults: { _controller: MaryWebBundle:Logger:index }
 
+request_index:
+    path: /request
+    defaults: { _controller: MaryWebBundle:Request:index }
+
+request_curl:
+    path: /request/curl
+    defaults: { _controller: MaryWebBundle:Request:curl }
+
 response_json:
     path: /response/json
     defaults: { _controller: MaryWebBundle:Response:json }
@@ -113,3 +121,7 @@ translator_pass_param:
 translator_force_locale:
     path: /translator/force/locale/{locale}
     defaults: { _controller: MaryWebBundle:Translator:forceLocale }
+
+translator_use_in_view:
+    path: /translator/use/in/view/{mode}
+    defaults: { _controller: MaryWebBundle:Translator:useInView, mode: 'basic' }

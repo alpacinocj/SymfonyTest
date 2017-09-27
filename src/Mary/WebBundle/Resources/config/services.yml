@@ -6,3 +6,8 @@ services:
             $logger: '@logger'
         tags:
             - { name: monolog.logger, channel: service }
+
+    mary.webbundle.curl:
+        class: Mary\Common\Libs\Curl\Curl
+        auguments:
+            $baseUrl: ''

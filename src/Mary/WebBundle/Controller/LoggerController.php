@@ -8,7 +8,8 @@ class LoggerController extends BaseController
 {
     public function indexAction()
     {
-        $this->container->get('logger')->info('some log message', ['time' => time()]);
+        $this->getLoggerService()->info('some log message', ['time' => time()]);
         return $this->render('MaryWebBundle:Logger:index.html.twig');
     }
+
 }

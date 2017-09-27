@@ -78,4 +78,14 @@ class BaseController extends Controller
         return $this->container->get('translator')->trans($id, $params, $domain, $locale);
     }
 
+    public function getLoggerService()
+    {
+        return $this->container->get('logger');
+    }
+
+    public function getCurlService()
+    {
+        return $this->container->get('mary.webbundle.curl');
+    }
+
 }

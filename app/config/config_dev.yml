@@ -26,7 +26,16 @@ monolog:
             max_files: 10
             filename_format: '{filename}.{date}'
             date_format: 'Ymd'
-            channels: ['!event', '!request', '!doctrine', '!service']
+            channels: ['!app', '!event', '!request', '!doctrine', '!service']
+
+        app:
+            type: rotating_file
+            path: '%kernel.logs_dir%/app.%kernel.environment%.log'
+            level: debug
+            max_files: 10
+            filename_format: '{filename}.{date}'
+            date_format: 'Ymd'
+            channels: [app]
 
         request:
             type: rotating_file

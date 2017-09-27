@@ -1,0 +1,12 @@
+{% extends 'MaryWebBundle::layout.html.twig' %}
+
+{# 指定默认语言包, 只对当前模板生效 #}
+
+{% trans_default_domain 'navigation' %}
+
+{% block main %}
+    <p>{{ 'Home Page'|trans }}</p>
+
+    {# 不在navigation中的会原样输出 #}
+    <p>{{ 'Hello World' }}</p>
+{% endblock %}

@@ -31,4 +31,10 @@ class TranslatorController extends BaseController
         echo $this->trans('Hello World', [], 'messages', $locale);
         exit;
     }
+
+    public function useInViewAction(Request $request, $mode)
+    {
+        $view = $mode . '.html.twig';
+        return $this->render('MaryWebBundle:Translator:' . $view);
+    }
 }

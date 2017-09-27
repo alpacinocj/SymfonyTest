@@ -1,0 +1,15 @@
+{% extends 'MaryWebBundle::layout.html.twig' %}
+
+{# translator在模板中的基本用法 #}
+
+{% block main %}
+    <p>{{ 'Hello World'|trans }}</p>
+    <p>{{ 'Hello %name%'|trans({'%name%': 'Jack'}) }}</p>
+    <p>{{ 'Hello %name%'|trans({'%name%': 'Jack'}, 'messages', 'ch') }}</p>
+    <p>{{ 'Home Page'|trans({}, 'navigation') }}</p>
+    <p>
+        {% trans %}Hello World{% endtrans %}
+    </p>
+    <p>{{ '<h3>Symfony is great</h3>'|trans }}</p>
+    <p>{{ '<h3>Symfony is great</h3>'|trans|raw }}</p>
+{% endblock %}
