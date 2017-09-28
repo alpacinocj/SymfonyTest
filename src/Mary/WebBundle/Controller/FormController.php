@@ -3,6 +3,7 @@
 namespace Mary\WebBundle\Controller;
 
 use Mary\Common\Form\UserForm;
+use Mary\Common\Form\UserType;
 use Mary\WebBundle\Entity\User;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Form;
@@ -47,15 +48,7 @@ class FormController extends BaseController
     {
         $userEntity = new User();
 
-        $userForm = new UserForm($this->container, $userEntity);
-        $userFormBuilder = $userForm->getFormBuilder();
-
-        /**
-         * @var $userForm Form
-         */
-        $userForm = $userFormBuilder
-            ->add('submit', 'submit', ['attr' => ['formnovalidate' => 'formnovalidate']])   // 关闭HTML5验证
-            ->getForm();
+        $userForm = $this->createForm(UserType::class, $userEntity, ['attr' => ['id' => 'register']]);
 
         // handle form
         $userForm->handleRequest($request);
@@ -78,16 +71,7 @@ class FormController extends BaseController
     {
         $userEntity = new User();
 
-        $userForm = new UserForm($this->container, $userEntity);
-        $userFormBuilder = $userForm->getFormBuilder();
-
-        /**
-         * @var $userForm Form
-         */
-        $userForm = $userFormBuilder
-            ->remove('age')
-            ->add('login', 'submit', ['attr' => ['formnovalidate' => 'formnovalidate']])
-            ->getForm();
+        $userForm = $this->createForm(UserType::class, $userEntity, ['attr' => ['id' => 'login']]);
 
         // handle form
         $userForm->handleRequest($request);

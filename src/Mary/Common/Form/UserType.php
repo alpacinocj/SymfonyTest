@@ -2,26 +2,23 @@
 
 namespace Mary\Common\Form;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Mary\Common\Validator\NotEmpty;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Range;
-use Symfony\Component\Form\FormBuilder;
+use Mary\WebBundle\Entity\User as UserEntity;
 
-class UserForm extends BaseForm
+class UserType extends BaseType
 {
-    public function __construct(ContainerInterface $container, $entity)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::__construct($container, $entity);
-    }
-
-    /**
-     * @return FormBuilder
-     */
-    public function getFormBuilder()
-    {
-        return $this->createFormBuilder($this->entity)
-            ->add('username', 'text', [
+        parent::buildForm($builder, $options);
+        $this->formBuilder
+            ->add('username', TextType::class, [
                 'constraints' => [
                     new NotEmpty([
                         'message' => '用户名不能为空'
@@ -34,7 +31,7 @@ class UserForm extends BaseForm
                     ])
                 ]
             ])
-            ->add('password', 'password', [
+            ->add('password', PasswordType::class, [
                 'constraints' => [
                     new NotEmpty([
                         'message' => '密码不能为空'
@@ -46,8 +43,10 @@ class UserForm extends BaseForm
                         'maxMessage' => '最多{{ limit }}个字符',
                     ]),
                 ]
-            ])
-            ->add('age', 'text', [
+            ]);
+
+        if (isset($options['attr']['id']) && $options['attr']['id'] == 'register') {
+            $this->formBuilder->add('age', TextType::class, [
                 'constraints' => [
                     new Range([
                         'min' => 0,
@@ -57,5 +56,16 @@ class UserForm extends BaseForm
                     ]),
                 ]
             ]);
+        }
+
+        $this->formBuilder->add('submit', SubmitType::class, ['attr' => ['formnovalidate' => 'formnovalidate']]);
+        return $this;
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => UserEntity::class
+        ));
     }
 }
