@@ -14,7 +14,9 @@ class RequestController extends BaseController
      * */
     public function curlAction()
     {
-        echo $this->getCurlService()->get('http://www.baidu.com');
+        $curl = $this->getCurlService();
+        $result = $curl->get('http://www.baidu.com');
+        echo $result;
         exit;
     }
 }

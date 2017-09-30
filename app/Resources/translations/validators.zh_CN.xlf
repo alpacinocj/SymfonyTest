@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>The username can not empty</source>
+                <target>用户名不能为空</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>The password can not empty</source>
+                <target>密码不能为空</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Minimum {{ limit }} characters</source>
+                <target>最少{{ limit }}个字符</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Maximum {{ limit }} characters</source>
+                <target>最多{{ limit }}个字符</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>No less than {{ limit }}</source>
+                <target>不能少于{{ limit }}个字符</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>No more than {{ limit }}</source>
+                <target>不能多于{{ limit }}个字符</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
