@@ -6,6 +6,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Mary\Common\Validator\NotEmpty;
 use Symfony\Component\Validator\Constraints\Length;
@@ -62,15 +63,11 @@ class UserType extends BaseType
         return $this;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => UserEntity::class
         ));
     }
 
-    public function getName()
-    {
-        return 'user';
-    }
 }
