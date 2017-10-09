@@ -78,6 +78,14 @@ logger_index:
     path: /logger
     defaults: { _controller: MaryWebBundle:Logger:index }
 
+mailer_index:
+    path: /mailer
+    defaults: { _controller: MaryWebBundle:Mailer:index }
+
+mailer_test:
+    path: /mailer/test
+    defaults: { _controller: MaryWebBundle:Mailer:test }
+
 request_index:
     path: /request
     defaults: { _controller: MaryWebBundle:Request:index }

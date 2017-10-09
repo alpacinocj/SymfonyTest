@@ -88,4 +88,9 @@ class BaseController extends Controller
         return $this->container->get('mary.webbundle.curl');
     }
 
+    public function getMailerService()
+    {
+        return $this->container->get('swiftmailer.mailer');
+    }
+
 }
