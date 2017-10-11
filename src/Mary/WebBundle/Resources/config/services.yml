@@ -11,3 +11,8 @@ services:
         class: Mary\Common\Libs\Curl\Curl
         auguments:
             $baseUrl: ''
+
+    mary.webbundle.user_register_listener:
+        class: Mary\WebBundle\Listener\UserRegisterListener
+        tags:
+            - { name: kernel.event_listener, event: user.register }

@@ -58,6 +58,10 @@ db_find_user_by_raw_sql:
     path: /db/find/user/{userId}/by/raw/sql
     defaults: { _controller: MaryWebBundle:Database:findUserByRawSql }
 
+event_index:
+    path: /event
+    defaults: { _controller: MaryWebBundle:Event:index }
+
 form_index:
     path: /form
     defaults: { _controller: MaryWebBundle:Form:index }

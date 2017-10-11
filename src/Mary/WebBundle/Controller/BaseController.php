@@ -93,4 +93,9 @@ class BaseController extends Controller
         return $this->container->get('swiftmailer.mailer');
     }
 
+    public function getDispatcher()
+    {
+        return $this->container->get('event_dispatcher');
+    }
+
 }
