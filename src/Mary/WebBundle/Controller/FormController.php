@@ -8,6 +8,7 @@ use Mary\WebBundle\Entity\User;
 use Mary\WebBundle\Event\Events;
 use Mary\WebBundle\Event\UserRegisterEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,6 +92,11 @@ class FormController extends BaseController
                     'message' => '用户名或者密码错误'
                 ]);
             }
+
+            // 事件派遣
+            $event = new GenericEvent($userEntity, ['extra' => 'hello world']);
+            $this->getDispatcher()->dispatch(Events::USER_LOGIN_EVENT, $event);
+
             return $this->redirectToRoute('show_message', [
                 'message' => '登录成功'
             ]);

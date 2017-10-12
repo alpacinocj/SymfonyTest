@@ -16,3 +16,8 @@ services:
         class: Mary\WebBundle\Event\Listener\UserRegisterListener
         tags:
             - { name: kernel.event_listener, event: user.register }
+
+    mary.webbundle.user_subscriber:
+        class: Mary\WebBundle\Event\Subscriber\UserSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
