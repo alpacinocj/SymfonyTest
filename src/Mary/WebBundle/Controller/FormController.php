@@ -6,7 +6,6 @@ use Mary\Common\Form\UserForm;
 use Mary\Common\Form\UserType;
 use Mary\WebBundle\Entity\User;
 use Mary\WebBundle\Event\Events;
-use Mary\WebBundle\Event\UserRegisterEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormBuilder;
@@ -63,7 +62,7 @@ class FormController extends BaseController
             $em->flush();
 
             // 事件派遣
-            $event = new UserRegisterEvent($userEntity, $this->getLoggerService());
+            $event = new GenericEvent($userEntity, ['extra' => 'user register']);
             $this->getDispatcher()->dispatch(Events::USER_REGISTER_EVENT, $event);
 
             return $this->redirectToRoute('show_message', [
@@ -94,7 +93,7 @@ class FormController extends BaseController
             }
 
             // 事件派遣
-            $event = new GenericEvent($userEntity, ['extra' => 'hello world']);
+            $event = new GenericEvent($userEntity, ['extra' => 'user login']);
             $this->getDispatcher()->dispatch(Events::USER_LOGIN_EVENT, $event);
 
             return $this->redirectToRoute('show_message', [
