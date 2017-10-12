@@ -5,6 +5,7 @@ namespace Mary\WebBundle\Controller;
 use Mary\Common\Form\UserForm;
 use Mary\Common\Form\UserType;
 use Mary\WebBundle\Entity\User;
+use Mary\WebBundle\Event\Events;
 use Mary\WebBundle\Event\UserRegisterEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormBuilder;
@@ -62,7 +63,7 @@ class FormController extends BaseController
 
             // 事件派遣
             $event = new UserRegisterEvent($userEntity, $this->getLoggerService());
-            $this->getDispatcher()->dispatch(UserRegisterEvent::EVENT_NAME, $event);
+            $this->getDispatcher()->dispatch(Events::USER_REGISTER_EVENT, $event);
 
             return $this->redirectToRoute('show_message', [
                 'message' => 'Add user success !'

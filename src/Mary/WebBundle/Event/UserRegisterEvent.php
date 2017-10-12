@@ -3,12 +3,15 @@
 namespace Mary\WebBundle\Event;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\Event;
 use Mary\WebBundle\Entity\User as UserEntity;
 
-class UserRegisterEvent extends Event
+/**
+ * 自定义事件
+ * Class UserRegisterEvent
+ * @package Mary\WebBundle\Event
+ */
+class UserRegisterEvent extends Events
 {
-    const EVENT_NAME = 'user.register';
 
     protected $user;
     protected $logger;

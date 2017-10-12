@@ -1,6 +1,6 @@
 <?php
 
-namespace Mary\WebBundle\Listener;
+namespace Mary\WebBundle\Event\Listener;
 
 use Mary\WebBundle\Event\UserRegisterEvent;
 
@@ -12,6 +12,5 @@ class UserRegisterListener
         $logger = $event->getLogger();
 
         $logger->info('trigger user register event success', ['username' => $user->getUsername()]);
-
     }
 }
