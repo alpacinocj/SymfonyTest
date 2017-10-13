@@ -1,0 +1,25 @@
+{% extends 'MaryWebBundle::layout.html.twig' %}
+
+{% block main %}
+    <h3>常用模板扩展(functions, filters, tags)</h3>
+
+    <h5>1. Functions方法, 函数</h5>
+    <p>{{ render(path('extension_fragment')) }}</p>
+    <p>子请求: {{ render(controller('MaryWebBundle:Extension:fragment')) }}</p>
+
+    <h5>1. Filters过滤器</h5>
+    <p>{{ 'hello world'|humanize }}</p>
+    <p>{{ 'Hello World'|trans }}</p>
+    <p>{{ 'Hello World'|trans([], 'messages', 'zh_CN') }}</p>
+    <p>{{ 'class'|abbr_class }}</p>
+    <p>{{ 'method'|abbr_method }}</p>
+
+    <h5>2. Tags标签</h5>
+    <p>{% trans with [] from 'messages' into 'zh_CN' %}Hello World{% endtrans %}</p>
+
+    <h5>3. GlobalVariables全局变量</h5>
+    <p>The app variable is available everywhere and gives access to many commonly needed objects and values.</p>
+    <p>{{ app.environment }}</p>
+    <p>{{ app.debug }}</p>
+    <p>{{ app.request.method }}</p>
+{% endblock %}

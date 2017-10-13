@@ -58,6 +58,22 @@ db_find_user_by_raw_sql:
     path: /db/find/user/{userId}/by/raw/sql
     defaults: { _controller: MaryWebBundle:Database:findUserByRawSql }
 
+extension_index:
+    path: /extension
+    defaults: { _controller: MaryWebBundle:Extension:index }
+
+extension_common:
+    path: /extension/common
+    defaults: { _controller: MaryWebBundle:Extension:common }
+
+extension_custom:
+    path: /extension/custom
+    defaults: { _controller: MaryWebBundle:Extension:custom }
+
+extension_fragment:
+    path: /extension/fragment
+    defaults: { _controller: MaryWebBundle:Extension:fragment }
+
 event_index:
     path: /event
     defaults: { _controller: MaryWebBundle:Event:index }

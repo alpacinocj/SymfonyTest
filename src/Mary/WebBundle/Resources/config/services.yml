@@ -18,3 +18,9 @@ services:
             $logger: '@logger'
         tags:
             - { name: kernel.event_subscriber }
+
+    mary.webbundle.web_extension:
+        class: Mary\WebBundle\Twig\Extension\WebExtension
+        public: false
+        tags:
+            - { name: twig.extension }
