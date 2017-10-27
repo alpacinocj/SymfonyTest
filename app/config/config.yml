@@ -30,6 +30,8 @@ framework:
         handler_id: ~
     fragments: ~
     http_method_override: true
+    assets:
+        version: v20171027
 
 # Twig Configuration
 twig:
@@ -69,8 +71,7 @@ swiftmailer:
     #spool: { type: memory }  # 使用邮件池
 
 assetic:
-    debug: "%kernel.debug%"
-    use_controller: true
-    # bundles:  [ ]             # 该参数设置则只对指定bundle生效, 否则全局生效
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
     filters:
         cssrewrite: ~

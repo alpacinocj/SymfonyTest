@@ -12,6 +12,61 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BaseController extends Controller
 {
+    public function getParameter($name)
+    {
+        return parent::getParameter($name);
+    }
+
+    public function getKernelDebug()
+    {
+        return $this->getParameter('kernel.debug');
+    }
+
+    public function getRootDir()
+    {
+        return $this->getParameter('kernel.root_dir');
+    }
+
+    public function getLogsDir()
+    {
+        return $this->getRootDir() . '/logs';
+    }
+
+    public function getEnvironment()
+    {
+        return $this->getParameter('kernel.environment');
+    }
+
+    public function getLanguage()
+    {
+        return $this->getParameter('locale');
+    }
+
+    public function getLimitPerPage()
+    {
+        return $this->getParameter('limit_per_page');
+    }
+
+    public function getLoggerService()
+    {
+        return $this->container->get('logger');
+    }
+
+    public function getCurlService()
+    {
+        return $this->container->get('mary.webbundle.curl');
+    }
+
+    public function getMailerService()
+    {
+        return $this->container->get('swiftmailer.mailer');
+    }
+
+    public function getDispatcher()
+    {
+        return $this->container->get('event_dispatcher');
+    }
+
     /**
      * @param string $name Entity Name
      * @return EntityManager
@@ -76,26 +131,6 @@ class BaseController extends Controller
     public function trans($id, $params = [], $domain = null, $locale = null)
     {
         return $this->container->get('translator')->trans($id, $params, $domain, $locale);
-    }
-
-    public function getLoggerService()
-    {
-        return $this->container->get('logger');
-    }
-
-    public function getCurlService()
-    {
-        return $this->container->get('mary.webbundle.curl');
-    }
-
-    public function getMailerService()
-    {
-        return $this->container->get('swiftmailer.mailer');
-    }
-
-    public function getDispatcher()
-    {
-        return $this->container->get('event_dispatcher');
     }
 
 }
