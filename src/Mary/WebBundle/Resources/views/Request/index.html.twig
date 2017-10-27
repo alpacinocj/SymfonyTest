@@ -1,5 +1,7 @@
 {% extends 'MaryWebBundle::layout.html.twig' %}
 
+{% block title %}{{ 'Request'|trans}} - {{ parent() }}{% endblock %}
+
 {% block main %}
     <p>Symfony2 Request Usage</p>
 {% endblock %}

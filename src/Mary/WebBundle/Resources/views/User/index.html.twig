@@ -1,5 +1,7 @@
 {% extends 'MaryWebBundle::layout.html.twig' %}
 
+{% block title %}{{ 'User'|trans}} - {{ parent() }}{% endblock %}
+
 {% block main %}
     <h3>User center</h3><a href="{{ path('logout') }}">Logout</a>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

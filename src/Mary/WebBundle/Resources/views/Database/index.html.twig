@@ -1,5 +1,7 @@
 {% extends 'MaryWebBundle::layout.html.twig' %}
 
+{% block title %}{{ 'Database'|trans}} - {{ parent() }}{% endblock %}
+
 {% block main %}
     <p>Some demos about database operation</p>
     <p>{{ message|default('') }}</p>

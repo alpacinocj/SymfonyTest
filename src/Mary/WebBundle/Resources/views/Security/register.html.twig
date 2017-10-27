@@ -1,5 +1,7 @@
 {% extends 'MaryWebBundle:Form:layout.html.twig' %}
 
+{% block title %}{{ 'Register'|trans}} - {{ parent() }}{% endblock %}
+
 {# 修改表单默认样式, 需在form()之前设置 #}
 {% form_theme userForm _self %}
 
