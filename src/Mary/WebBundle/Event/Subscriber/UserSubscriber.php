@@ -27,8 +27,8 @@ class UserSubscriber implements EventSubscriberInterface
          * array('eventName' => array(array('methodName1', $priority), array('methodName2')))
          * */
         return [
-            Events::USER_REGISTER_EVENT => ['onRegister', 0],
-            Events::USER_LOGIN_EVENT => ['onLogin', 1],
+            Events::USER_REGISTER_EVENT     => ['onRegister', 0],
+            Events::USER_LOGIN_EVENT        => ['onLogin', 1],
         ];
     }
 

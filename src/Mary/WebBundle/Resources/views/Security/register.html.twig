@@ -1,0 +1,9 @@
+{% extends 'MaryWebBundle:Form:layout.html.twig' %}
+
+{# 修改表单默认样式, 需在form()之前设置 #}
+{% form_theme userForm _self %}
+
+{% block main %}
+    <h3>User Register</h3>
+    {{ form(userForm) }}
+{% endblock %}

@@ -2,6 +2,17 @@ mary_web_homepage:
     path: /
     defaults: { _controller: MaryWebBundle:Default:index }
 
+login:
+    path: /login
+    defaults: { _controller: MaryWebBundle:Security:login }
+
+register:
+    path: /register
+    defaults: { _controller: MaryWebBundle:Security:register }
+
+logout:
+    path: /logout
+
 hello_page:
     path: /hello/{name}
     defaults: { _controller: MaryWebBundle:Default:hello }
@@ -134,6 +145,10 @@ service_call:
     path: /service/call
     defaults: { _controller: MaryWebBundle:Service:call }
 
+test_admin:
+    path: /test/admin
+    defaults: { _controller: MaryWebBundle:Test:admin }
+
 translator_index:
     path: /translator
     defaults: { _controller: MaryWebBundle:Translator:index }
@@ -153,3 +168,7 @@ translator_force_locale:
 translator_use_in_view:
     path: /translator/use/in/view/{mode}
     defaults: { _controller: MaryWebBundle:Translator:useInView, mode: 'basic' }
+
+user_index:
+    path: /user/index
+    defaults: { _controller: MaryWebBundle:User:index }

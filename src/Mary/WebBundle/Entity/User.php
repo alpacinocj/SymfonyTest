@@ -5,14 +5,15 @@ namespace Mary\WebBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\ManyToMany;
-use Mary\Common\Util\Hash as HashUtil;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(name="user")
  * @ORM\HasLifecycleCallbacks()
  */
-class User
+class User implements AdvancedUserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -34,6 +35,11 @@ class User
     /**
      * @ORM\Column(type="string", options={"default": ""})
      */
+    protected $email;
+
+    /**
+     * @ORM\Column(type="string", options={"default": ""})
+     */
     protected $salt;
 
     /**
@@ -51,12 +57,25 @@ class User
      */
     protected $updated_time;
 
-    private $passwordChanged = false;
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    protected $isActive;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->isActive = true;
+        $this->salt = md5(uniqid(null, true));
+        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -79,7 +98,7 @@ class User
     /**
      * Get username
      *
-     * @return string 
+     * @return string
      */
     public function getUsername()
     {
@@ -95,14 +114,14 @@ class User
     public function setPassword($password)
     {
         $this->password = $password;
-        $this->passwordChanged = true;
+
         return $this;
     }
 
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -135,22 +154,11 @@ class User
     /**
      * Get profile
      *
-     * @return \Mary\WebBundle\Entity\UserProfile 
+     * @return \Mary\WebBundle\Entity\UserProfile
      */
     public function getProfile()
     {
         return $this->profile;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
-        if (empty($this->getSalt())) {
-            $this->setSalt(HashUtil::createSalt());
-        }
     }
 
     /**
@@ -169,7 +177,7 @@ class User
     /**
      * Get age
      *
-     * @return integer 
+     * @return integer
      */
     public function getAge()
     {
@@ -202,7 +210,7 @@ class User
     /**
      * Get books
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBooks()
     {
@@ -225,7 +233,7 @@ class User
     /**
      * Get created_time
      *
-     * @return integer 
+     * @return integer
      */
     public function getCreatedTime()
     {
@@ -248,7 +256,7 @@ class User
     /**
      * Get updated_time
      *
-     * @return integer 
+     * @return integer
      */
     public function getUpdatedTime()
     {
@@ -261,11 +269,13 @@ class User
      */
     public function PrePersist()
     {
+        if ($this->email === null) {
+            $this->setEmail('');
+        }
         if (empty($this->getCreatedTime())) {
             $this->setCreatedTime(time());
         }
         $this->setUpdatedTime(time());
-        $this->setPassword(HashUtil::createHash($this->getPassword(), $this->getSalt()));
     }
 
     /**
@@ -274,9 +284,6 @@ class User
     public function PreUpdate()
     {
         $this->setUpdatedTime(time());
-        if ($this->passwordChanged) {
-            $this->setPassword(HashUtil::createHash($this->getPassword(), $this->getSalt()));
-        }
     }
 
     /**
@@ -295,20 +302,122 @@ class User
     /**
      * Get salt
      *
-     * @return string 
+     * @return string
      */
     public function getSalt()
     {
         return $this->salt;
     }
 
-    /**
-     * Validate password
-     * @param string $password
-     * @return boolean
-     */
-    public function validatePassword($password)
+    public function getRoles()
     {
-        return HashUtil::validatePassword($password, $this->getSalt(), $this->getPassword());
+        return ['ROLE_USER'];
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt,
+            //$this->isActive,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt,
+            //$this->isActive
+            ) = unserialize($serialized);
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return User
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * 检查账户是否已过期 (返回false, 用户将被禁止登陆)
+     */
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * 检查账户是否被锁定 (返回false, 用户将被禁止登陆)
+     */
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    /**
+     * 检查用户密码是否已过期 (返回false, 用户将被禁止登陆)
+     */
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * 检查用户是否已启用 (返回false, 用户将被禁止登陆)
+     */
+    public function isEnabled()
+    {
+        return $this->isActive;
+    }
+
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }

@@ -1,4 +1,10 @@
+parameters:
+
 services:
+    mary.webbundle.logout_success_handler:
+        class: Mary\WebBundle\Handler\LogoutSuccessHandler
+        parent: security.logout.success_handler
+
     mary.webbundle.hello:
         class: Mary\WebBundle\Service\HelloService
         arguments:

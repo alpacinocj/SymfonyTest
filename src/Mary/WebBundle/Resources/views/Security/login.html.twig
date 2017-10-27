@@ -1,0 +1,18 @@
+{% extends 'MaryWebBundle::layout.html.twig' %}
+
+{% block main %}
+    <h3>Login page</h3>
+    <div class="login-form">
+        <form action="{{ path('login') }}" method="post">
+            {% if error %}
+                <p style="color: #f00;">{{ error.messageKey|trans(error.messageData) }}</p>
+            {% endif %}
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="username" value="{{ lastUsername }}">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <button type="submit">Login</button>
+        </form>
+    </div>
+{% endblock %}

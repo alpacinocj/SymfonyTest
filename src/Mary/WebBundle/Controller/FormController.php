@@ -2,7 +2,6 @@
 
 namespace Mary\WebBundle\Controller;
 
-use Mary\Common\Form\UserForm;
 use Mary\Common\Form\UserType;
 use Mary\WebBundle\Entity\User;
 use Mary\WebBundle\Event\Events;
@@ -13,6 +12,9 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Util\Debug;
 
+/*
+ * 表单操作
+ * */
 class FormController extends BaseController
 {
     public function indexAction()
@@ -47,7 +49,7 @@ class FormController extends BaseController
         ]);
     }
 
-    public function registerAction(Request $request)
+    /*public function registerAction(Request $request)
     {
         $userEntity = new User();
 
@@ -104,5 +106,5 @@ class FormController extends BaseController
         return $this->render('MaryWebBundle:Form:login.html.twig', [
             'userForm' => $userForm->createView()
         ]);
-    }
+    }*/
 }

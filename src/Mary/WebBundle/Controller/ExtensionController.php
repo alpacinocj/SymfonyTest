@@ -4,6 +4,9 @@ namespace Mary\WebBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
+/*
+ * 模板扩展
+ * */
 class ExtensionController extends BaseController
 {
     public function indexAction()

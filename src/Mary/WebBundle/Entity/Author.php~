@@ -32,7 +32,7 @@ class Author
     protected $birth;
 
     /**
-     * @OneToMany(targetEntity="Book", mappedBy="author")
+     * @OneToMany(targetEntity="Book", mappedBy="author", orphanRemoval=true)
      */
     private $books;
 
