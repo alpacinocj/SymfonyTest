@@ -1,0 +1,7 @@
+{%- macro asset_css(path) -%}
+    <link rel="stylesheet" href="{{ asset(path) }}">
+{% endmacro %}
+
+{%- macro asset_js(path) -%}
+    <script src="{{ asset(path) }}"></script>
+{% endmacro %}

@@ -2,8 +2,16 @@
 
 {% block title %}{{ 'Login'|trans}} - {{ parent() }}{% endblock %}
 
+{% block page_styles %}
+    {{ web_macro.asset_css('bundles/maryweb/css/login.css') }}
+{% endblock %}
+
+{% block page_scripts %}
+    {{ web_macro.asset_js('bundles/maryweb/js/login.js') }}
+{% endblock %}
+
 {% block main %}
-    <h3>Login page</h3>
+    <h3 class="login-title">Login page</h3>
     <div class="login-form">
         <form action="{{ path('login') }}" method="post">
             {% if error %}
