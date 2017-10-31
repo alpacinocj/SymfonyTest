@@ -137,6 +137,18 @@ response_json_error:
     path: /response/json/error
     defaults: { _controller: MaryWebBundle:Response:jsonError }
 
+serializer_index:
+    path: /serializer
+    defaults: { _controller: MaryWebBundle:Serializer:index }
+
+serializer_serialize:
+    path: /serializer/serialize/{format}
+    defaults: { _controller: MaryWebBundle:Serializer:serialize, format: 'json' }
+
+serializer_normalize:
+    path: /serializer/normalize
+    defaults: { _controller: MaryWebBundle:Serializer:normalize }
+
 service_index:
     path: /service
     defaults: { _controller: MaryWebBundle:Service:index }

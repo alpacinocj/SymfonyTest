@@ -19,7 +19,10 @@ framework:
     form: ~
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
+    serializer:
+        enabled: true # 开启, 默认是关闭的
+        enable_annotations: true
+        name_converter: serializer.name_converter.camel_case_to_snake_case # 驼峰命名转换成蛇形命名
     templating:
         engines: ['twig']
     default_locale: '%locale%'
