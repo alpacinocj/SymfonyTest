@@ -78,3 +78,11 @@ assetic:
     use_controller: '%kernel.debug%'
     filters:
         cssrewrite: ~
+
+knp_paginator:
+    page_range: 5
+    default_options:
+        page_name: page
+    template:
+        pagination: KnpPaginatorBundle:Pagination:sliding.html.twig
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig

@@ -272,6 +272,9 @@ class User implements AdvancedUserInterface, \Serializable
         if ($this->email === null) {
             $this->setEmail('');
         }
+        if ($this->age === null) {
+            $this->setAge(0);
+        }
         if (empty($this->getCreatedTime())) {
             $this->setCreatedTime(time());
         }

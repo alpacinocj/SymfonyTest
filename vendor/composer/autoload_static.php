@@ -60,6 +60,10 @@ class ComposerStaticInit59324652c5091f56d450974274d96ffc
         array (
             'Monolog\\' => 8,
         ),
+        'K' => 
+        array (
+            'Knp\\Bundle\\PaginatorBundle\\' => 27,
+        ),
         'J' => 
         array (
             'JBZoo\\Utils\\' => 12,
@@ -170,6 +174,10 @@ class ComposerStaticInit59324652c5091f56d450974274d96ffc
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Knp\\Bundle\\PaginatorBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-paginator-bundle',
+        ),
         'JBZoo\\Utils\\' => 
         array (
             0 => __DIR__ . '/..' . '/jbzoo/utils/src',
@@ -217,6 +225,13 @@ class ComposerStaticInit59324652c5091f56d450974274d96ffc
             'SensioLabs\\Security' => 
             array (
                 0 => __DIR__ . '/..' . '/sensiolabs/security-checker',
+            ),
+        ),
+        'K' => 
+        array (
+            'Knp\\Component' => 
+            array (
+                0 => __DIR__ . '/..' . '/knplabs/knp-components/src',
             ),
         ),
         'D' => 

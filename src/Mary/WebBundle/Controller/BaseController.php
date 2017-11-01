@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\VarDumper\VarDumper;
 
 class BaseController extends Controller
 {
@@ -66,6 +67,11 @@ class BaseController extends Controller
     public function getSerializerService()
     {
         return $this->container->get('serializer');
+    }
+
+    public function getPaginatorService()
+    {
+        return $this->container->get('knp_paginator');
     }
 
     public function getDispatcher()
@@ -126,6 +132,11 @@ class BaseController extends Controller
         return $this->responseJson($errorData, Response::HTTP_INTERNAL_SERVER_ERROR, $headers);
     }
 
+    public function createBadRequestException($message = 'Bad Request', \Exception $previous = null)
+    {
+        return new BadRequestHttpException($message, $previous);
+    }
+
     /**
      * Translate message
      * @param string $id 语言包文件中定义的KEY (xxx/translations/xxx.yml)
@@ -139,9 +150,12 @@ class BaseController extends Controller
         return $this->container->get('translator')->trans($id, $params, $domain, $locale);
     }
 
-    public function createBadRequestException($message = 'Bad Request', \Exception $previous = null)
+    public function dump($var, $exit = true)
     {
-        return new BadRequestHttpException($message, $previous);
+        VarDumper::dump($var);
+        if ($exit === true) {
+            exit;
+        }
     }
 
 }

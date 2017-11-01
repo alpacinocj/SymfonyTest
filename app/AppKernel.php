@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Mary\WebBundle\MaryWebBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Mary\AdminBundle\MaryAdminBundle(),
+            new \Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

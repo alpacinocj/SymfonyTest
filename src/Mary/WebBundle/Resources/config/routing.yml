@@ -188,3 +188,7 @@ translator_use_in_view:
 user_index:
     path: /user/index
     defaults: { _controller: MaryWebBundle:User:index }
+
+user_list:
+    path: /user/list
+    defaults: { _controller: MaryWebBundle:User:list }
