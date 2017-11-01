@@ -48,4 +48,4 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }    # 登录页面无需认证
         - { path: ^/user, roles: ROLE_USER }
-        - { path: /test/admin, roles: ROLE_ADMIN }  # 测试仅ROLE_ADMIN角色才能访问
+        - { path: ^/admin, roles: ROLE_ADMIN }  # 测试仅ROLE_ADMIN角色才能访问
