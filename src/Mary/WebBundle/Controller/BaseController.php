@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class BaseController extends Controller
 {
@@ -136,6 +137,11 @@ class BaseController extends Controller
     public function trans($id, $params = [], $domain = null, $locale = null)
     {
         return $this->container->get('translator')->trans($id, $params, $domain, $locale);
+    }
+
+    public function createBadRequestException($message = 'Bad Request', \Exception $previous = null)
+    {
+        return new BadRequestHttpException($message, $previous);
     }
 
 }

@@ -1,6 +1,12 @@
 parameters:
 
 services:
+    mary.webbundle.exception_listener:
+        class: Mary\WebBundle\Listener\KernelExceptionListener
+        arguments: ['@logger', '@mailer']
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
     mary.webbundle.logout_success_handler:
         class: Mary\WebBundle\Handler\LogoutSuccessHandler
         parent: security.logout.success_handler

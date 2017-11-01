@@ -125,6 +125,10 @@ request_curl:
     path: /request/curl
     defaults: { _controller: MaryWebBundle:Request:curl }
 
+request_error:
+    path: /request/error
+    defaults: { _controller: MaryWebBundle:Request:error }
+
 response_json:
     path: /response/json
     defaults: { _controller: MaryWebBundle:Response:json }
