@@ -7,6 +7,7 @@ defined('APP_ENV_DEV') or define('APP_ENV_DEV', APP_ENV === 'dev');
 defined('APP_ENV_PROD') or define('APP_ENV_PROD', APP_ENV === 'prod');
 defined('APP_ENV_TEST') or define('APP_ENV_TEST', APP_ENV === 'test');
 defined('APP_DEBUG') or define('APP_DEBUG', !APP_ENV_PROD);
+defined('APP_OAUTH_SWITCH') or define('APP_OAUTH_SWITCH', false);
 date_default_timezone_set('Asia/Shanghai');
 
 require __DIR__.'/../app/autoload.php';

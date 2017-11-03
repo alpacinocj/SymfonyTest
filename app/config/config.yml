@@ -88,13 +88,15 @@ knp_paginator:
         pagination: KnpPaginatorBundle:Pagination:sliding.html.twig
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig
 
+##############################################################
 # 第三方登录配置
-hwi_oauth:
-    firewall_name: secured_area
-    resource_owners:
-        qq:     # any unique name
-            type: qq
-            client_id: 1106518832 # app id
-            client_secret: VBlis7sZpWv3LKup # app secret
-            options:
-                csrf: true
+# hwi_oauth:
+#     firewall_name: secured_area
+#     resource_owners:
+#         qq:     # any unique name
+#             type: qq
+#             client_id: 1106518832 # app id
+#             client_secret: VBlis7sZpWv3LKup # app secret
+#             options:
+#                 csrf: true
+##############################################################

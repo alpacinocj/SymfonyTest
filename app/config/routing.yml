@@ -6,13 +6,15 @@ mary_web:
     resource: "@MaryWebBundle/Resources/config/routing.yml"
     prefix:   /
 
-hwi_oauth_redirect:
-    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-    prefix:   /connect
-
-hwi_oauth_login:
-    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix:   /login
-
-oauth_qq_callback:
-    pattern: /login/check-qq
+###########################################################################
+# hwi_oauth_redirect:
+#     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+#     prefix:   /connect
+#
+# hwi_oauth_login:
+#     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+#     prefix:   /login
+#
+# oauth_qq_callback:
+#     pattern: /login/check-qq
+###########################################################################
