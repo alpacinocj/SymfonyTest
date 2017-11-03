@@ -10,8 +10,8 @@
     {% block styles %}
         {% block global_styles %}
             {% stylesheets
-                'public/css/normalize-7.0.0.css'
-                'public/css/global.css'
+                'assets/public/css/normalize-7.0.0.css'
+                'assets/public/css/global.css'
             filter='cssrewrite' output='compiled/css/main.css'
             %}
                 <link rel="stylesheet" href="{{ asset_url }}">
@@ -21,8 +21,8 @@
     {% endblock %}
     {% block global_scripts %}
         {% javascripts
-            'public/js/jquery-3.2.1.min.js'
-            'public/js/global.js'
+            'assets/public/js/jquery-3.2.1.min.js'
+            'assets/public/js/global.js'
         output='compiled/js/main.js'
         %}
             <script src="{{ asset_url }}"></script>

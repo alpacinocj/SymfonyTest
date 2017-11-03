@@ -14,7 +14,10 @@ class UserController extends BaseController
     public function listAction(Request $request)
     {
         $keywords = $request->query->get('kw', '');
-        $queryBuilder = $this->getUserRepository()->createQueryBuilder('u');
+        $queryBuilder = $this->getUserRepository()
+            ->createQueryBuilder('u')
+            ->select('u.id, u.username, u.age, u.email, u.created_time, u.updated_time')
+            ->orderBy('u.created_time', 'ASC');
         if (!empty($keywords)) {
             $queryBuilder->where('u.username LIKE :username OR u.email LIKE :email OR u.age LIKE :age')
                 ->setParameter('username', "%{$keywords}%")

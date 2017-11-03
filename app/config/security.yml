@@ -20,7 +20,7 @@ security:
             security: false
 
         main:
-            anonymous: ~
+            anonymous: ~    # 可以匿名访问
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
