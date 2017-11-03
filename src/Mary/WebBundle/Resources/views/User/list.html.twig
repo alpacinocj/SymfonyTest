@@ -29,8 +29,8 @@
                         <td>{{ entity.username }}</td>
                         <td>{{ entity.age }}</td>
                         <td>{{ entity.email }}</td>
-                        <td>{{ entity.created_time }}</td>
-                        <td>{{ entity.updated_time }}</td>
+                        <td>{{ entity.created_time|date('Y/m/d') }}</td>
+                        <td>{{ entity.updated_time|date('Y/m/d') }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

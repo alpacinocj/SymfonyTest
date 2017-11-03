@@ -33,8 +33,10 @@ return array(
     'JBZoo\\Utils\\' => array($vendorDir . '/jbzoo/utils/src'),
     'JBZoo\\Data\\' => array($vendorDir . '/jbzoo/data/src'),
     'Incenteev\\ParameterHandler\\' => array($vendorDir . '/incenteev/composer-parameter-handler'),
+    'HWI\\Bundle\\OAuthBundle\\' => array($vendorDir . '/hwi/oauth-bundle'),
     'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
     'Doctrine\\Bundle\\DoctrineCacheBundle\\' => array($vendorDir . '/doctrine/doctrine-cache-bundle'),
     'Doctrine\\Bundle\\DoctrineBundle\\' => array($vendorDir . '/doctrine/doctrine-bundle'),
+    'Buzz\\' => array($vendorDir . '/kriswallsmith/buzz/lib/Buzz'),
     '' => array($baseDir . '/src'),
 );

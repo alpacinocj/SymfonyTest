@@ -16,6 +16,7 @@
         "php": ">=5.3.9",
         "doctrine/doctrine-bundle": "~1.4",
         "doctrine/orm": "^2.4.8",
+        "hwi/oauth-bundle": "0.4.*@dev",
         "incenteev/composer-parameter-handler": "~2.0",
         "jbzoo/utils": "1.x-dev",
         "knplabs/knp-paginator-bundle": "^2.6",
