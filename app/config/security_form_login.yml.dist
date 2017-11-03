@@ -1,0 +1,51 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    encoders:
+        Mary\WebBundle\Entity\User:
+            algorithm: bcrypt
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        mary_webbundle_provider:
+            entity:
+                class: Mary\WebBundle\Entity\User
+                # property: username
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~    # 可以匿名访问
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                # 使用forward而不是重定向跳转
+                #use_forward: true
+                # 当需要登录时跳转的地址
+                login_path: /login
+                # 提交登录处理的地址 默认为login_check
+                check_path: /login
+                # 登录成功后的跳转地址
+                default_target_path: /user/index
+                username_parameter: username
+                password_parameter: password
+                post_only: true
+                csrf_token_generator: security.csrf.token_manager
+
+            logout:
+                path: /logout
+                success_handler: mary.webbundle.logout_success_handler
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }    # 登录页面无需认证
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }  # 测试仅ROLE_ADMIN角色才能访问
