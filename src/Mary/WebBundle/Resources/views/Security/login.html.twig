@@ -15,7 +15,7 @@
     <div class="login-form">
         <form action="{{ path('login') }}" method="post">
             {% if error %}
-                <p style="color: #f00;">{{ error.messageKey|trans(error.messageData) }}</p>
+                <p style="color: #f00;">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
             {% endif %}
             <label for="username">Username: </label>
             <input type="text" name="username" id="username" value="{{ lastUsername }}">
