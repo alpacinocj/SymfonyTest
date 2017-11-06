@@ -79,6 +79,24 @@ class BaseController extends Controller
         return $this->container->get('event_dispatcher');
     }
 
+    public function getAuthorizationChecker()
+    {
+        return $this->container->get('security.authorization_checker');
+    }
+
+    public function getCurrentUser()
+    {
+        return $this->getUser();
+    }
+
+    /*
+     * @return boolean
+     * */
+    public function isLogin()
+    {
+        return $this->getAuthorizationChecker()->isGranted('IS_AUTHENTICATED_FULLY');
+    }
+
     /**
      * @param string $name Entity Name
      * @return EntityManager

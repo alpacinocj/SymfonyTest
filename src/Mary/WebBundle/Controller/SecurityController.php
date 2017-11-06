@@ -45,6 +45,9 @@ class SecurityController extends BaseController
 
     public function loginAction()
     {
+        if ($this->isLogin()) {
+            return $this->redirectToRoute('user_index');
+        }
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();

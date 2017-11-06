@@ -26,10 +26,6 @@
                 <source>No more than {{ limit }}</source>
                 <target>不能多于{{ limit }}个字符</target>
             </trans-unit>
-            <trans-unit id="7">
-                <source>Invalid credentials.</source>
-                <target>无效的凭证。</target>
-            </trans-unit>
         </body>
     </file>
 </xliff>
