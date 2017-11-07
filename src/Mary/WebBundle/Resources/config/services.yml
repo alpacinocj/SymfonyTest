@@ -14,8 +14,8 @@ services:
     mary.webbundle.hello:
         class: Mary\WebBundle\Service\HelloService
         arguments:
-            $language: 'en'
-            $logger: '@logger'
+            $language: '%locale%'
+            $logger: '@?logger'
         tags:
             - { name: monolog.logger, channel: service }
 

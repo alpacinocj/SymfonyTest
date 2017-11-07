@@ -9,7 +9,7 @@ class HelloService extends BaseService
     protected $language;
     protected $logger;
 
-    public function __construct($language, LoggerInterface $logger)
+    public function __construct($language, LoggerInterface $logger = null)
     {
         $this->language = $language;
         $this->logger = $logger;
@@ -18,18 +18,23 @@ class HelloService extends BaseService
     public function say($name)
     {
         $greetings = "%s {$name}, %s !";
+
         switch ($this->language) {
             case 'en' :
                 $greetings = sprintf($greetings, 'Hello', 'Welcome');
                 break;
-            case 'cn' :
+            case 'zh_CN' :
                 $greetings = sprintf($greetings, '你好', '欢迎');
                 break;
             default :
                 $greetings = sprintf($greetings, 'Hello', 'Welcome');
                 break;
         }
-        $this->logger->info($greetings);
+
+        if (null !== $this->logger) {
+            $this->logger->info($greetings);
+        }
+
         return $greetings;
     }
 }
