@@ -11,15 +11,13 @@ services:
         class: Mary\WebBundle\Handler\LogoutSuccessHandler
         parent: security.logout.success_handler
 
-    mary.webbundle.hello:
+    mary.webbundle.hello_service:
         class: Mary\WebBundle\Service\HelloService
-        arguments:
-            $language: '%locale%'
-            $logger: '@?logger'
+        arguments: ['%locale%', '@logger', '@request_stack']
         tags:
             - { name: monolog.logger, channel: service }
 
-    mary.webbundle.curl:
+    mary.webbundle.curl_service:
         class: Mary\Common\Libs\Curl\Curl
         auguments:
             $baseUrl: ''
@@ -33,6 +31,11 @@ services:
 
     mary.webbundle.web_extension:
         class: Mary\WebBundle\Twig\Extension\WebExtension
+        arguments: ['@service_container']
         public: false
         tags:
             - { name: twig.extension }
+
+    mary.webbundle.assets_service:
+        class: Mary\WebBundle\Service\AssetsService
+        arguments: ['@request_stack', '%assets_version%']

@@ -3,16 +3,23 @@
 namespace Mary\WebBundle\Service;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class HelloService extends BaseService
 {
     protected $language;
     protected $logger;
+    protected $requestStack;
 
-    public function __construct($language, LoggerInterface $logger = null)
+    public function __construct($language, LoggerInterface $logger = null, RequestStack $requestStack)
     {
         $this->language = $language;
         $this->logger = $logger;
+        $this->requestStack = $requestStack;
+        $clientIp = $requestStack->getCurrentRequest()->getClientIp();
+        if (null !== $this->logger) {
+            $this->logger->debug($clientIp);
+        }
     }
 
     public function say($name)

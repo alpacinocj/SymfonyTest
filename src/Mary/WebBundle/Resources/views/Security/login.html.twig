@@ -3,15 +3,16 @@
 {% block title %}{{ 'Login'|trans}} - {{ parent() }}{% endblock %}
 
 {% block page_styles %}
-    {{ web_macro.asset_css('assets/maryweb/css/login.css') }}
+    {{ assetCss('login.css') }}
 {% endblock %}
 
 {% block page_scripts %}
-    {{ web_macro.asset_js('assets/maryweb/js/login.js') }}
+    {{ assetJs('login.js') }}
 {% endblock %}
 
 {% block main %}
     <h3 class="login-title">Login page</h3>
+    {#{{ assetImage('baidu.png') }}#}
     <div class="login-form">
         <form action="{{ path('login') }}" method="post">
             {% if error %}

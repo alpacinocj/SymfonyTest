@@ -56,7 +56,7 @@ class BaseController extends Controller
 
     public function getCurlService()
     {
-        return $this->container->get('mary.webbundle.curl');
+        return $this->container->get('mary.webbundle.curl_service');
     }
 
     public function getMailerService()
@@ -95,6 +95,21 @@ class BaseController extends Controller
     public function isLogin()
     {
         return $this->getAuthorizationChecker()->isGranted('IS_AUTHENTICATED_FULLY');
+    }
+
+    public function goHome()
+    {
+        return $this->redirect($this->generateUrl('mary_web_homepage'));
+    }
+
+    public function goLogin()
+    {
+        return $this->redirect($this->generateUrl('login'));
+    }
+
+    public function goRegister()
+    {
+        return $this->redirect($this->generateUrl('register'));
     }
 
     /**
