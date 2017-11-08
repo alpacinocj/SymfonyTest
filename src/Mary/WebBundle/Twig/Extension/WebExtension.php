@@ -6,11 +6,8 @@ use JBZoo\Utils\Str as StringUtil;
 
 class WebExtension extends \Twig_Extension
 {
-    protected $container;
-
-    public function __construct($container)
+    public function __construct()
     {
-        $this->container = $container;
     }
 
     public function getFilters()
@@ -24,9 +21,6 @@ class WebExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('stripSpace', [$this, 'stripSpace']),
-            new \Twig_SimpleFunction('assetCss', [$this, 'assetCss']),
-            new \Twig_SimpleFunction('assetJs', [$this, 'assetJs']),
-            new \Twig_SimpleFunction('assetImg', [$this, 'assetImg']),
         ];
     }
 
@@ -41,41 +35,4 @@ class WebExtension extends \Twig_Extension
     {
         return StringUtil::stripSpace($string);
     }
-
-    public function assetCss($cssFile, $basePath = null)
-    {
-        $assetsService = $this->getAssetsService();
-        if (null !== $basePath) {
-            $assetsService->setAssetsBasePath($basePath);
-        }
-        echo "<link rel=\"stylesheet\" href=\"{$assetsService->getAssetPath($cssFile)}\">";
-        return null;
-    }
-
-    public function assetJs($jsFile, $basePath = null)
-    {
-        $assetsService = $this->getAssetsService();
-        if (null !== $basePath) {
-            $assetsService->setAssetsBasePath($basePath);
-        }
-        echo "<script src=\"{$assetsService->getAssetPath($jsFile)}\"></script>";
-        return null;
-    }
-
-    public function assetImg($imgFile, $basePath = null, $width = 'auto', $height = 'auto')
-    {
-        $assetsService = $this->getAssetsService();
-        if (null !== $basePath) {
-            $assetsService->setAssetsBasePath($basePath);
-        }
-        echo "<img src=\"{$assetsService->getAssetPath($imgFile)}\" alt=\"{$imgFile}\" width=\"{$width}\" height=\"{$height}\">";
-        return null;
-    }
-
-    protected function getAssetsService()
-    {
-        return $this->container->get('mary.webbundle.assets_service');
-    }
-
-
 }

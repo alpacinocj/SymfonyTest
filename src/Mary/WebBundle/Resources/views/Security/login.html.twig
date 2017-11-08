@@ -14,8 +14,8 @@
 
 {% block main %}
     <h3 class="login-title">Login page</h3>
-    {#{{ webMacro.webAssetImg('baidu.png', '500', '200') }}#}
-    {#{{ assetImg('https://www.baidu.com/img/bd_logo1.png') }}#}
+    {#{{ webMacro.webAssetImg('baidu.png', '500', '200') }}
+    {{ assetImg('https://www.baidu.com/img/bd_logo1.png') }}#}
     <div class="login-form">
         <form action="{{ path('login') }}" method="post">
             {% if error %}

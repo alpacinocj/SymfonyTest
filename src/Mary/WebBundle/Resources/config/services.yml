@@ -7,6 +7,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    mary.webbundle.user_subscriber:
+        class: Mary\WebBundle\Event\Subscriber\UserSubscriber
+        arguments:
+            $logger: '@logger'
+        tags:
+            - { name: kernel.event_subscriber }
+
     mary.webbundle.logout_success_handler:
         class: Mary\WebBundle\Handler\LogoutSuccessHandler
         parent: security.logout.success_handler
@@ -22,20 +29,20 @@ services:
         auguments:
             $baseUrl: ''
 
-    mary.webbundle.user_subscriber:
-        class: Mary\WebBundle\Event\Subscriber\UserSubscriber
-        arguments:
-            $logger: '@logger'
-        tags:
-            - { name: kernel.event_subscriber }
+    mary.webbundle.assets_service:
+        class: Mary\WebBundle\Service\AssetsService
+        arguments: ['@request_stack', '%assets_version%']
 
     mary.webbundle.web_extension:
         class: Mary\WebBundle\Twig\Extension\WebExtension
-        arguments: ['@service_container']
+        arguments: []
         public: false
         tags:
             - { name: twig.extension }
 
-    mary.webbundle.assets_service:
-        class: Mary\WebBundle\Service\AssetsService
-        arguments: ['@request_stack', '%assets_version%']
+    mary.webbundle.assets_extension:
+        class: Mary\WebBundle\Twig\Extension\AssetsExtension
+        arguments: ['@mary.webbundle.assets_service']
+        public: false
+        tags:
+            - { name: twig.extension }
