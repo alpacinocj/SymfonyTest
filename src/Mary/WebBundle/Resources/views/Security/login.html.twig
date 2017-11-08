@@ -3,16 +3,19 @@
 {% block title %}{{ 'Login'|trans}} - {{ parent() }}{% endblock %}
 
 {% block page_styles %}
-    {{ assetCss('login.css') }}
+    {{ webMacro.webAssetCss('login.css') }}
+    {#{{ assetCss('https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css') }}#}
 {% endblock %}
 
 {% block page_scripts %}
-    {{ assetJs('login.js') }}
+    {{ webMacro.webAssetJs('login.js') }}
+    {#{{ assetJs('https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js') }}#}
 {% endblock %}
 
 {% block main %}
     <h3 class="login-title">Login page</h3>
-    {#{{ assetImage('baidu.png') }}#}
+    {#{{ webMacro.webAssetImg('baidu.png', '500', '200') }}#}
+    {#{{ assetImg('https://www.baidu.com/img/bd_logo1.png') }}#}
     <div class="login-form">
         <form action="{{ path('login') }}" method="post">
             {% if error %}

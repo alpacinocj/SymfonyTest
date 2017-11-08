@@ -26,7 +26,7 @@ class WebExtension extends \Twig_Extension
             new \Twig_SimpleFunction('stripSpace', [$this, 'stripSpace']),
             new \Twig_SimpleFunction('assetCss', [$this, 'assetCss']),
             new \Twig_SimpleFunction('assetJs', [$this, 'assetJs']),
-            new \Twig_SimpleFunction('assetImage', [$this, 'assetImage']),
+            new \Twig_SimpleFunction('assetImg', [$this, 'assetImg']),
         ];
     }
 
@@ -42,21 +42,33 @@ class WebExtension extends \Twig_Extension
         return StringUtil::stripSpace($string);
     }
 
-    public function assetCss($cssFile, $basePath = '/assets/maryweb')
+    public function assetCss($cssFile, $basePath = null)
     {
-        echo '<link rel="stylesheet" href="'. $this->_getAssetPath('css', $basePath, $cssFile) .'">';
+        $assetsService = $this->getAssetsService();
+        if (null !== $basePath) {
+            $assetsService->setAssetsBasePath($basePath);
+        }
+        echo "<link rel=\"stylesheet\" href=\"{$assetsService->getAssetPath($cssFile)}\">";
         return null;
     }
 
-    public function assetJs($jsFile, $basePath = '/assets/maryweb')
+    public function assetJs($jsFile, $basePath = null)
     {
-        echo '<script src="'. $this->_getAssetPath('js', $basePath, $jsFile) .'"></script>';
+        $assetsService = $this->getAssetsService();
+        if (null !== $basePath) {
+            $assetsService->setAssetsBasePath($basePath);
+        }
+        echo "<script src=\"{$assetsService->getAssetPath($jsFile)}\"></script>";
         return null;
     }
 
-    public function assetImage($imageFile, $basePath = '/assets/maryweb', $width = 'auto', $height = 'auto')
+    public function assetImg($imgFile, $basePath = null, $width = 'auto', $height = 'auto')
     {
-        echo '<img src="'. $this->_getAssetPath('images', $basePath, $imageFile) .'" alt="'. $imageFile .'" width="'. $width .'" height="'. $height .'">';
+        $assetsService = $this->getAssetsService();
+        if (null !== $basePath) {
+            $assetsService->setAssetsBasePath($basePath);
+        }
+        echo "<img src=\"{$assetsService->getAssetPath($imgFile)}\" alt=\"{$imgFile}\" width=\"{$width}\" height=\"{$height}\">";
         return null;
     }
 
@@ -65,11 +77,5 @@ class WebExtension extends \Twig_Extension
         return $this->container->get('mary.webbundle.assets_service');
     }
 
-    private function _getAssetPath($assetType, $basePath, $assetFile)
-    {
-        $assetsService = $this->getAssetsService();
-        $assetsService->setAssetsBasePath($basePath);
-        $path = $assetsService->getPackageByType($assetType)->getUrl($assetFile);
-        return $path;
-    }
+
 }

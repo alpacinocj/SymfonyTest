@@ -1,0 +1,11 @@
+{%- macro webAssetCss(cssFile) -%}
+    {{ assetCss(cssFile, '/assets/maryweb/css') }}
+{% endmacro %}
+
+{%- macro webAssetJs(jsFile) -%}
+    {{ assetCss(jsFile, '/assets/maryweb/js') }}
+{% endmacro %}
+
+{%- macro webAssetImg(imgFile, width = 'auto', height = 'auto') -%}
+    {{ assetImg(imgFile, '/assets/maryweb/images', width, height) }}
+{% endmacro %}

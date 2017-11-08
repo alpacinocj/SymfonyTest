@@ -3,6 +3,7 @@
 namespace Mary\WebBundle\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Asset\UrlPackage;
 use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
@@ -12,14 +13,15 @@ class AssetsService extends BaseService
 {
     private $requestStack;
     private $assetsVersion;
-    private $versionFormat = null;
+    private $versionFormat;
     private $assetsBasePath;
-    private $allowAssetTypes = ['css', 'js', 'images'];
 
     public function __construct(RequestStack $requestStack, $assetsVersion = null)
     {
         $this->requestStack = $requestStack;
         $this->assetsVersion = defined('APP_ENV_PROD') && APP_ENV_PROD ? $assetsVersion : $this->_getRandAssetsVersion();
+        $this->versionFormat = null;
+        $this->assetsBasePath = null;
     }
 
     private function _getRandAssetsVersion()
@@ -37,7 +39,15 @@ class AssetsService extends BaseService
         $this->assetsBasePath = $basePath;
     }
 
-    protected function getPackage($path, $version = null, $format = null)
+    protected function getUrlPackage($path, $version = null, $format = null)
+    {
+        return new UrlPackage(
+            $path,
+            null === $version ? new EmptyVersionStrategy() : new StaticVersionStrategy($version, $format)
+        );
+    }
+
+    protected function getPathPackage($path, $version = null, $format = null)
     {
         return new PathPackage(
             $path,
@@ -45,27 +55,26 @@ class AssetsService extends BaseService
         );
     }
 
-    public function getPackageByType($assetType)
+    public function getAssetPath($assetFile)
     {
-        $assetType = strtolower($assetType);
-        if (!in_array($assetType, $this->allowAssetTypes)) {
-            throw new InvalidArgumentException('Asset type should be in the range: ' . implode(',', $this->allowAssetTypes));
+        $pathInfo = pathinfo($assetFile);
+        $basePath = !empty($this->assetsBasePath) ? $this->assetsBasePath : $pathInfo['dirname'];
+        $parse = parse_url($assetFile);
+        if (isset($parse['scheme']) && isset($parse['host'])) {
+            // absolute asset
+            $package = $this->getUrlPackage($basePath, $this->assetsVersion, $this->versionFormat);
+        } else {
+            $package = $this->getPathPackage($basePath, $this->assetsVersion, $this->versionFormat);
         }
-        return $this->getPackage($this->assetsBasePath . '/' . $assetType, $this->assetsVersion, $this->versionFormat);
+        $path = $package->getUrl($pathInfo['basename']);
+        $this->_reset();
+        return $path;
     }
 
-    public function getCssPackage()
+    private function _reset()
     {
-        return $this->getPackageByType('css');
+        $this->versionFormat = null;
+        $this->assetsBasePath = null;
     }
 
-    public function getJsPackage()
-    {
-        return $this->getPackageByType('js');
-    }
-
-    public function getImagePackage()
-    {
-        return $this->getPackageByType('images');
-    }
 }
