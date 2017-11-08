@@ -13,14 +13,6 @@ register:
 logout:
     path: /logout
 
-hello_page:
-    path: /hello/{name}
-    defaults: { _controller: MaryWebBundle:Default:hello }
-
-show_message:
-    path: /show/message/{message}
-    defaults: { _controller: MaryWebBundle:Default:showMessage }
-
 config_index:
     path: /config
     defaults: { _controller: MaryWebBundle:Config:index }
@@ -28,6 +20,14 @@ config_index:
 config_show_parameter:
     path: /config/show/parameter/{key}
     defaults: { _controller: MaryWebBundle:Config:showParameter }
+
+hello_page:
+    path: /hello/{name}
+    defaults: { _controller: MaryWebBundle:Default:hello }
+
+show_message:
+    path: /show/message/{message}
+    defaults: { _controller: MaryWebBundle:Default:showMessage }
 
 db_index:
     path: /db
@@ -68,6 +68,34 @@ db_remove_author:
 db_find_user_by_raw_sql:
     path: /db/find/user/{userId}/by/raw/sql
     defaults: { _controller: MaryWebBundle:Database:findUserByRawSql }
+
+dom_index:
+    path: /dom
+    defaults: { _controller: MaryWebBundle:Dom:index }
+
+dom_test:
+    path: /dom/test
+    defaults: { _controller: MaryWebBundle:Dom:test }
+
+dom_filter:
+    path: /dom/filter
+    defaults: { _controller: MaryWebBundle:Dom:filter }
+
+dom_position:
+    path: /dom/position
+    defaults: { _controller: MaryWebBundle:Dom:position }
+
+dom_value:
+    path: /dom/value
+    defaults: { _controller: MaryWebBundle:Dom:value }
+
+dom_add:
+    path: /dom/add
+    defaults: { _controller: MaryWebBundle:Dom:add }
+
+dom_link:
+    path: /dom/link
+    defaults: { _controller: MaryWebBundle:Dom:link }
 
 extension_index:
     path: /extension
