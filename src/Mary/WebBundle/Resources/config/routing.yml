@@ -189,6 +189,14 @@ service_call:
     path: /service/call
     defaults: { _controller: MaryWebBundle:Service:call }
 
+stopwatch_index:
+    path: /stopwatch
+    defaults: { _controller: MaryWebBundle:Stopwatch:index }
+
+stopwatch_periods:
+    path: /stopwatch/periods
+    defaults: { _controller: MaryWebBundle:Stopwatch:periods }
+
 test_admin:
     path: /test/admin
     defaults: { _controller: MaryWebBundle:Test:admin }

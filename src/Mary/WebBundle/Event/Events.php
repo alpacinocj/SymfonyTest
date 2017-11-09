@@ -8,4 +8,6 @@ class Events extends Event
 {
     const USER_REGISTER_EVENT   = 'user.register';
     const USER_LOGIN_EVENT      = 'user.login';
+
+    const RUN_PERIODS_EVENT     = 'run.periods';
 }

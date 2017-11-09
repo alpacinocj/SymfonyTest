@@ -74,6 +74,11 @@ class BaseController extends Controller
         return $this->container->get('knp_paginator');
     }
 
+    public function getFileSystemService()
+    {
+        return $this->container->get('filesystem');
+    }
+
     public function getDispatcher()
     {
         return $this->container->get('event_dispatcher');
