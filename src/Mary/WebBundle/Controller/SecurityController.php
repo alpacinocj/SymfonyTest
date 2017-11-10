@@ -33,8 +33,7 @@ class SecurityController extends BaseController
              */
             $file = $userEntity->getAvatar();
             if (!empty($file)) {
-                $filename = StrUtil::uuid() . '.' . $file->guessExtension();
-                $file->move($this->getParameter('avatars_uploads_dir'), $filename);
+                $filename = $this->getUploaderService()->upload($file, 'avatars');
                 $userEntity->setAvatar($filename);
             }
 

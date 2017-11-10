@@ -33,6 +33,10 @@ services:
         class: Mary\WebBundle\Service\AssetsService
         arguments: ['@request_stack', '%assets_version%']
 
+    mary.webbundle.uploader_service:
+        class: Mary\WebBundle\Service\UploaderService
+        arguments: ['%uploads_dir%']
+
     mary.webbundle.web_extension:
         class: Mary\WebBundle\Twig\Extension\WebExtension
         arguments: []

@@ -79,6 +79,11 @@ class BaseController extends Controller
         return $this->container->get('filesystem');
     }
 
+    public function getUploaderService()
+    {
+        return $this->container->get('mary.webbundle.uploader_service');
+    }
+
     public function getDispatcher()
     {
         return $this->container->get('event_dispatcher');

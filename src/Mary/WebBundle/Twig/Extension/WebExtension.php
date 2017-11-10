@@ -35,4 +35,5 @@ class WebExtension extends \Twig_Extension
     {
         return StringUtil::stripSpace($string);
     }
+
 }

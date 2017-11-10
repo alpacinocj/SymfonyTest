@@ -19,6 +19,7 @@ class AssetsExtension extends \Twig_Extension
             new \Twig_SimpleFunction('assetCss', [$this, 'assetCss']),
             new \Twig_SimpleFunction('assetJs', [$this, 'assetJs']),
             new \Twig_SimpleFunction('assetImg', [$this, 'assetImg']),
+            new \Twig_SimpleFunction('uploadedImg', [$this, 'uploadedImg']),
         ];
     }
 
@@ -48,4 +49,10 @@ class AssetsExtension extends \Twig_Extension
         echo "<img src=\"{$this->assetsService->getAssetPath($imgFile)}\" alt=\"{$imgFile}\" width=\"{$width}\" height=\"{$height}\">";
         return null;
     }
+
+    public function uploadedImg($targetFile, $width = 'auto', $height = 'auto')
+    {
+        return $this->assetImg($targetFile, 'uploads', $width, $height);
+    }
+
 }
