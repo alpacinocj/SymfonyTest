@@ -5,12 +5,14 @@ namespace Mary\Common\Form;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Mary\Common\Validator\NotEmpty;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\File;
 use Mary\WebBundle\Entity\User as UserEntity;
 
 class UserType extends BaseType
@@ -20,6 +22,7 @@ class UserType extends BaseType
         parent::buildForm($builder, $options);
         $this->formBuilder
             ->add('username', TextType::class, [
+                //'label' => 'Username',
                 'constraints' => [
                     new NotEmpty([
                         'message' => 'The username can not empty'
@@ -47,16 +50,25 @@ class UserType extends BaseType
             ]);
 
         if (isset($options['attr']['id']) && $options['attr']['id'] == 'register') {
-            $this->formBuilder->add('age', TextType::class, [
-                'constraints' => [
-                    new Range([
-                        'min' => 0,
-                        'max' => 120,
-                        'minMessage' => 'No less than {{ limit }}',
-                        'maxMessage' => 'No more than {{ limit }}',
-                    ]),
-                ]
-            ]);
+            $this->formBuilder
+                ->add('age', TextType::class, [
+                    'constraints' => [
+                        new Range([
+                            'min' => 0,
+                            'max' => 120,
+                            'minMessage' => 'No less than {{ limit }}',
+                            'maxMessage' => 'No more than {{ limit }}',
+                        ]),
+                    ]
+                ])
+                ->add('avatar', FileType::class, [
+                    //http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
+                    'constraints' => [
+                        new File([
+                            'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif']
+                        ])
+                    ]
+                ]);
         }
 
         $this->formBuilder->add('submit', SubmitType::class, ['attr' => ['formnovalidate' => 'formnovalidate']]);
@@ -66,7 +78,8 @@ class UserType extends BaseType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => UserEntity::class
+            'data_class' => UserEntity::class,
+            'translation_domain' => 'form',
         ));
     }
 

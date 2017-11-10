@@ -48,6 +48,11 @@ class User implements AdvancedUserInterface, \Serializable
     protected $age;
 
     /**
+     * @ORM\Column(type="string", options={"default": ""})
+     */
+    protected $avatar;
+
+    /**
      * @ORM\Column(type="integer")
      */
     protected $created_time;
@@ -269,6 +274,12 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function PrePersist()
     {
+        if ($this->email === null) {
+            $this->setEmail('');
+        }
+        if ($this->age === null) {
+            $this->setAge(0);
+        }
         if (empty($this->getCreatedTime())) {
             $this->setCreatedTime(time());
         }
@@ -394,4 +405,27 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->isActive;
     }
 
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
 }

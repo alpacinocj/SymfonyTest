@@ -35,7 +35,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\Column(type="string", options={"default": ""})
      */
-    protected $email;
+    protected $email = '';
 
     /**
      * @ORM\Column(type="string", options={"default": ""})
@@ -45,7 +45,12 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\Column(type="integer", options={"default": 0})
      */
-    protected $age;
+    protected $age = 0;
+
+    /**
+     * @ORM\Column(type="string", options={"default": ""})
+     */
+    protected $avatar = '';
 
     /**
      * @ORM\Column(type="integer")
@@ -422,5 +427,28 @@ class User implements AdvancedUserInterface, \Serializable
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set avatar
+     *
+     * @param string $avatar
+     * @return User
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+    
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return string 
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
     }
 }
