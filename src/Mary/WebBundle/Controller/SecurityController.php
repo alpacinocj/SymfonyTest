@@ -2,11 +2,13 @@
 
 namespace Mary\WebBundle\Controller;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Mary\WebBundle\Event\Events;
 use Mary\WebBundle\Entity\User;
 use Mary\Common\Form\UserType;
+use JBZoo\Utils\Str as StrUtil;
 
 class SecurityController extends BaseController
 {
@@ -24,6 +26,17 @@ class SecurityController extends BaseController
             // 加密密码
             $password = $this->get('security.password_encoder')->encodePassword($userEntity, $userEntity->getPassword());
             $userEntity->setPassword($password);
+
+            // 上传头像
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $userEntity->getAvatar();
+            if (!empty($file)) {
+                $filename = StrUtil::uuid() . '.' . $file->guessExtension();
+                $file->move($this->getParameter('avatars_uploads_dir'), $filename);
+                $userEntity->setAvatar($filename);
+            }
 
             $em = $this->getEntityManager();
             $em->persist($userEntity);

@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Mary\Common\Validator\NotEmpty;
@@ -52,6 +53,8 @@ class UserType extends BaseType
         if (isset($options['attr']['id']) && $options['attr']['id'] == 'register') {
             $this->formBuilder
                 ->add('age', TextType::class, [
+                    'required' => false,
+                    'empty_data' => 0,
                     'constraints' => [
                         new Range([
                             'min' => 0,
@@ -63,11 +66,13 @@ class UserType extends BaseType
                 ])
                 ->add('avatar', FileType::class, [
                     //http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
+                    'required' => false,
+                    'empty_data' => '',
                     'constraints' => [
                         new File([
                             'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif']
                         ])
-                    ]
+                    ],
                 ]);
         }
 
