@@ -21,9 +21,9 @@
             {% if error %}
                 <p style="color: #f00;">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
             {% endif %}
-            <label for="username">Username: </label>
+            {{ form_label(userForm.username) }}
             <input type="text" name="username" id="username" value="{{ lastUsername }}">
-            <label for="password">Password: </label>
+            {{ form_label(userForm.password) }}
             <input type="password" name="password" id="password">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             <button type="submit">Login</button>

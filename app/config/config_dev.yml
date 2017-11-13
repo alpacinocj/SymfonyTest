@@ -2,7 +2,6 @@ imports:
     - { resource: config.yml }
 
 parameters:
-    limit_per_page: 10
 
 framework:
     router:

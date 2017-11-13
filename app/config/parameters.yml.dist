@@ -2,9 +2,13 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
+
+    locale: zh_CN
+    assets_version: v1.0.0
+
     database_host: 127.0.0.1
     database_port: 3306
-    database_name: symfony
+    database_name: symfonytest
     database_user: root
     database_password: 123456
     # You should uncomment this if you want to use pdo_sqlite
@@ -16,6 +20,9 @@ parameters:
     mailer_user: alpacino_cj@163.com
     mailer_password: 5w84js96r25ue3k2
     mailer_encryption: tls
+    admin_email: 279278253@qq.com
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    uploads_dir: '%kernel.root_dir%/../web/uploads'

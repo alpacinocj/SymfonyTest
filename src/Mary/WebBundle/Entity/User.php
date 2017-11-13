@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
  */
 class User implements AdvancedUserInterface, \Serializable
 {
+    const PAGE_LIMIT = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

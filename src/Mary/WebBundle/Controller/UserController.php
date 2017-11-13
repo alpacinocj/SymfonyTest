@@ -3,6 +3,7 @@
 namespace Mary\WebBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Mary\WebBundle\Entity\User as UserEntity;
 
 class UserController extends BaseController
 {
@@ -25,8 +26,7 @@ class UserController extends BaseController
                 ->setParameter('age', "%{$keywords}%");
         }
         $paginator = $this->getPaginatorService();
-        $limit = 1;
-        $pagination = $paginator->paginate($queryBuilder, $request->query->getInt('page', 1), $limit);
+        $pagination = $paginator->paginate($queryBuilder, $request->query->getInt('page', 1), UserEntity::PAGE_LIMIT);
         return $this->render('MaryWebBundle:User:list.html.twig', [
             'keywords' => $keywords,
             'pagination' => $pagination

@@ -63,9 +63,12 @@ class SecurityController extends BaseController
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+        $userEntity = new User();
+        $userForm = $this->createForm(UserType::class, $userEntity, ['attr' => ['id' => 'login']]);
         return $this->render('MaryWebBundle:Security:login.html.twig', [
             'error' => $error,
-            'lastUsername' => $lastUsername
+            'lastUsername' => $lastUsername,
+            'userForm' => $userForm->createView()
         ]);
     }
 }
