@@ -50,15 +50,22 @@ class AssetsService extends BaseService
         );
     }
 
-    public function getAssetPath($assetFile)
+    public function getAssetPath($assetPath)
     {
-        $pathInfo = pathinfo($assetFile);
-        $basePath = !empty($this->assetsBasePath) ? $this->assetsBasePath : $pathInfo['dirname'];
-        $class = UrlUtil::isAbsolute($assetFile) ? 'getUrlPackage' : 'getPathPackage';
+        $pathInfo = pathinfo($assetPath);
+        if (!empty($this->assetsBasePath)) {
+            $basePath = rtrim($this->assetsBasePath, '/');
+            if (!empty($pathInfo['dirname']) && !in_array($pathInfo['dirname'], ['.', '..', '/'])) {
+                $basePath .= '/' . $pathInfo['dirname'];
+            }
+        } else {
+            $basePath = $pathInfo['dirname'];
+        }
+        $class = UrlUtil::isAbsolute($assetPath) ? 'getUrlPackage' : 'getPathPackage';
         $package = $this->$class($basePath, $this->assetsVersion, $this->versionFormat);
-        $path = $package->getUrl($pathInfo['basename']);
+        $url = $package->getUrl($pathInfo['basename']);
         $this->_reset();
-        return $path;
+        return $url;
     }
 
     private function _reset()
