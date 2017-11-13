@@ -21,6 +21,10 @@ config_show_parameter:
     path: /config/show/parameter/{key}
     defaults: { _controller: MaryWebBundle:Config:showParameter }
 
+config_load:
+    path: /config/load
+    defaults: { _controller: MaryWebBundle:Config:load }
+
 hello_page:
     path: /hello/{name}
     defaults: { _controller: MaryWebBundle:Default:hello }

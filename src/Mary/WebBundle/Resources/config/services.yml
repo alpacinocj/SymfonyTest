@@ -39,7 +39,9 @@ services:
 
     mary.webbundle.web_extension:
         class: Mary\WebBundle\Twig\Extension\WebExtension
-        arguments: []
+        arguments:
+            $options:
+                kernel_env: '%kernel.environment%'
         public: false
         tags:
             - { name: twig.extension }

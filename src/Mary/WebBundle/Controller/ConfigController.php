@@ -3,6 +3,9 @@
 namespace Mary\WebBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Config\Definition\Processor;
+use Mary\WebBundle\DependencyInjection\Configuration;
 
 class ConfigController extends BaseController
 {
@@ -23,5 +26,10 @@ class ConfigController extends BaseController
         return $this->render('MaryWebBundle:Config:show_parameter.html.twig', [
             'value' => $value
         ]);
+    }
+
+    public function loadAction()
+    {
+        echo 'load test'; die;
     }
 }

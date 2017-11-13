@@ -3,11 +3,25 @@
 namespace Mary\WebBundle\Twig\Extension;
 
 use JBZoo\Utils\Str as StringUtil;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class WebExtension extends \Twig_Extension
 {
-    public function __construct()
+    protected $options;
+
+    public function __construct(array $options = [])
     {
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+        $this->options = $resolver->resolve($options);
+    }
+
+    protected function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            // set default options here ... todo
+            'kernel_env' => 'dev'
+        ]);
     }
 
     public function getFilters()
@@ -21,6 +35,7 @@ class WebExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('stripSpace', [$this, 'stripSpace']),
+            new \Twig_SimpleFunction('getKernelEnv', [$this, 'getKernelEnv']),
         ];
     }
 
@@ -34,6 +49,11 @@ class WebExtension extends \Twig_Extension
     public function stripSpace($string)
     {
         return StringUtil::stripSpace($string);
+    }
+
+    public function getKernelEnv()
+    {
+        return $this->options['kernel_env'];
     }
 
 }
