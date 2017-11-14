@@ -5,4 +5,10 @@
     <p>价格: {{ 289|price }}</p>
     <p>价格: {{ 248.8473|price(2) }}</p>
     <p>{{ stripSpace('There are some spaces in this string.') }}</p>
+    <p>{{ mbSubStr('sl啊dfj很好ls', 0, 5) }}</p>
+    <p>{{ 'hello我'|lower }}</p>
+    <p>{{ 'hello我'|upper }}</p>
+    <p>{{ ' some search value '|trim(' ', 'left') }}</p>
+    <p>{{ ' some search value '|trim(' ', 'right') }}</p>
+    <p>{{ ' some search value.'|trim('.') }}</p>
 {% endblock %}

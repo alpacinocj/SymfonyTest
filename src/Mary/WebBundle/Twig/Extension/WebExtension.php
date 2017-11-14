@@ -36,6 +36,7 @@ class WebExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('stripSpace', [$this, 'stripSpace']),
             new \Twig_SimpleFunction('getKernelEnv', [$this, 'getKernelEnv']),
+            new \Twig_SimpleFunction('mbSubStr', [$this, 'mbSubStr']),
         ];
     }
 
@@ -54,6 +55,11 @@ class WebExtension extends \Twig_Extension
     public function getKernelEnv()
     {
         return $this->options['kernel_env'];
+    }
+
+    public function mbSubStr($string, $start, $length = 0)
+    {
+        return StringUtil::sub($string, $start, $length);
     }
 
 }
