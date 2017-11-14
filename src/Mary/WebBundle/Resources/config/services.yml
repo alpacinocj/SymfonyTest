@@ -35,7 +35,11 @@ services:
 
     mary.webbundle.uploader_service:
         class: Mary\WebBundle\Service\UploaderService
-        arguments: ['%uploads_dir%']
+        arguments:
+            $uploadsDir: '%uploads_dir%'
+            $options:
+                thumb_switch: false
+                thumb_size: [{width: 80, height: 80}, {width: 200, height: 200}]
 
     mary.webbundle.web_extension:
         class: Mary\WebBundle\Twig\Extension\WebExtension
