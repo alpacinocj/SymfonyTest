@@ -2,16 +2,9 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
-defined('APP_ENV') or define('APP_ENV', 'dev');
-defined('APP_ENV_DEV') or define('APP_ENV_DEV', APP_ENV === 'dev');
-defined('APP_ENV_PROD') or define('APP_ENV_PROD', APP_ENV === 'prod');
-defined('APP_ENV_TEST') or define('APP_ENV_TEST', APP_ENV === 'test');
-defined('APP_DEBUG') or define('APP_DEBUG', !APP_ENV_PROD);
-defined('APP_OAUTH_SWITCH') or define('APP_OAUTH_SWITCH', false);
-date_default_timezone_set('Asia/Shanghai');
-
-require __DIR__.'/../app/autoload.php';
-include_once __DIR__.'/../app/bootstrap.php.cache';
+require __DIR__ . '/../app/config/constants.php';
+require __DIR__ . '/../app/autoload.php';
+include_once __DIR__ . '/../app/bootstrap.php.cache';
 
 $kernel = new AppKernel(APP_ENV, APP_DEBUG);
 $kernel->loadClassCache();
@@ -25,5 +18,15 @@ try {
     $response->send();
     $kernel->terminate($request, $response);
 } catch (\Exception $e) {
-    echo $e->getMessage(); die;
+    // 如果定义了KernelExceptionListener并且返回了一个Response实例, 则此处不会运行
+    $error = [
+        'error_file' => $e->getFile(),
+        'error_line' => $e->getLine(),
+        'error_code' => $e->getCode(),
+        'error_info' => $e->getMessage()
+    ];
+    $errorInfo = json_encode($error);
+    file_put_contents($kernel->getLogDir() . '/exception.log', $errorInfo . "\r\n", FILE_APPEND);
+    print !APP_ENV_PROD ? $errorInfo : 'Server Error';
+    exit;
 }
