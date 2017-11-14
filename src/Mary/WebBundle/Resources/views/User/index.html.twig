@@ -3,9 +3,9 @@
 {% block title %}{{ 'User'|trans}} - {{ parent() }}{% endblock %}
 
 {% block main %}
-    <h3>User center</h3><a href="{{ path('logout') }}">Logout</a>
+    <h3>User center</h3><a href="{{ path('logout') }}">{{ 'Logout'|trans }}</a>
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <p>Welcome {{ app.user.username }} !</p>
+        <p>{{ hello_service.say(app.user.username) }}</p>
         {% if app.user.avatar %}
             <p>{{ uploadedImg(app.user.avatar, 50, 50) }}</p>
         {% endif %}

@@ -34,8 +34,12 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    # 全局变量
     globals:
+        # 可以是一个参数变量
         assets_version: '%assets_version%'
+        # 也可以是一个已注册服务对象
+        hello_service: '@mary.webbundle.hello_service'
 
 # Doctrine Configuration
 doctrine:

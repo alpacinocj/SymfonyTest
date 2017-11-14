@@ -1,2 +1,4 @@
 Hello World: 'Hello world !'
 Hello %name%: 'Hello, %name% !'
+Login: 'Login'
+Logout: 'Logout'

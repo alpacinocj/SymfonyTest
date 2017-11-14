@@ -1,2 +1,4 @@
 Hello World: '世界, 你好!'
 Hello %name%: '嗨, %name%!'
+Login: '登入'
+Logout: '登出'
