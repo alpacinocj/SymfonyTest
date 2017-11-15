@@ -128,7 +128,8 @@ class BaseController extends Controller
      */
     public function getEntityManager($name = null)
     {
-        return $this->getDoctrine()->getEntityManager($name);
+        // getEntityManager is deprecated since Symfony 2.1. Use getManager instead
+        return $this->getDoctrine()->getManager($name);
     }
 
     /**
