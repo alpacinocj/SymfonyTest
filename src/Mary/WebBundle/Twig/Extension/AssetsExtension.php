@@ -21,6 +21,7 @@ class AssetsExtension extends \Twig_Extension
             new \Twig_SimpleFunction('assetJs', [$this, 'assetJs'], $options),
             new \Twig_SimpleFunction('assetImg', [$this, 'assetImg'], $options),
             new \Twig_SimpleFunction('uploadedImg', [$this, 'uploadedImg'], $options),
+            new \Twig_SimpleFunction('uploadedThumbImg', [$this, 'uploadedThumbImg'], $options),
         ];
     }
 
@@ -54,6 +55,19 @@ class AssetsExtension extends \Twig_Extension
     public function uploadedImg($targetFile, $width = 'auto', $height = 'auto')
     {
         return $this->assetImg($targetFile, 'uploads', $width, $height);
+    }
+
+    public function uploadedThumbImg($targetFile, array $thumbSize)
+    {
+        $size = array_values($thumbSize);
+        if (!isset($size[0]) || !isset($size[1])) {
+            return null;
+        }
+        $baseFilename = basename($targetFile);
+        list($filename, $extension) = explode('.', $baseFilename);
+        $thumbFile = sprintf('%s_%s_%s.%s', $filename, $size[0], $size[1], $extension);
+        $basePath = 'uploads/' . dirname($targetFile) . '/thumbs';
+        return $this->assetImg($thumbFile, $basePath);
     }
 
 }
