@@ -5,6 +5,7 @@ namespace Mary\WebBundle\Service;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use JBZoo\Utils\Str as StrUtil;
 
 class UploaderService extends BaseService
@@ -27,9 +28,15 @@ class UploaderService extends BaseService
         $resolver->setDefaults([
             'thumb_switch' => false,
             'thumb_size' => [
-                ['width' => '20', 'height' => '20'],
+                ['width' => '20', 'height' => '20']
             ]
         ]);
+    }
+
+    public function openThumbSwitch()
+    {
+        $this->options['thumb_switch'] = true;
+        return $this;
     }
 
     public function closeThumbSwitch()
@@ -38,13 +45,25 @@ class UploaderService extends BaseService
         return $this;
     }
 
+    public function setThumbSize(array $sizeArr)
+    {
+        $this->options['thumb_size'] = $sizeArr;
+        return $this;
+    }
+
+    public function getRealPath()
+    {
+        return $this->realPath;
+    }
+
     public function upload(UploadedFile $file, $group)
     {
-        $this->rename($file);
+        $filename = $this->rename($file);
         $targetPath = $this->getTargetPath($group);
         $file->move($targetPath, $this->filename);
-        $path = $this->getFilePathByGroup($targetPath, $group, $this->filename);
-        $this->realPath = realpath($this->uploadsDir . '/' . $path);
+        $this->realPath = realpath($targetPath . '/' . $this->filename);
+        // file path will be store in database, eg: group/20171121/lsjfl2342ljlds.png
+        $path = $this->getFilePathByGroup($targetPath, $group);
         if ($this->options['thumb_switch']) {
             $this->resize();
         }
@@ -53,33 +72,38 @@ class UploaderService extends BaseService
 
     protected function resize()
     {
-        $imagick = new \Imagick($this->realPath);
-        $w = $imagick->getImageWidth();
-        $h = $imagick->getImageHeight();
-        foreach ($this->options['thumb_size'] as &$item) {
-            $item['width'] = $item['width'] ?? $w;
-            $item['height'] = $item['height'] ?? $h;
-            $imagick->resizeImage($item['width'], $item['height'], \Imagick::FILTER_LANCZOS, 1);
-            $thumbFile = $this->getThumbFilename($item['width'], $item['height']);
-            $imagick->writeImage($thumbFile);
+        try {
+            $imagick = new \Imagick($this->realPath);
+            $w = $imagick->getImageWidth();
+            $h = $imagick->getImageHeight();
+            foreach ($this->options['thumb_size'] as &$item) {
+                $item['width'] = $item['width'] ?? $w;
+                $item['height'] = $item['height'] ?? $h;
+                $imagick->resizeImage($item['width'], $item['height'], \Imagick::FILTER_LANCZOS, 1);
+                $thumbFile = $this->getThumbFilename($item['width'], $item['height']);
+                $imagick->writeImage($thumbFile);
+            }
+            $imagick->clear();
+            $imagick->destroy();
+        } catch (\Exception $e) {
+            throw new FileException($e->getMessage());
         }
-        $imagick->clear();
-        $imagick->destroy();
     }
 
-    protected function getFullPath()
+    protected function makeThumbFilePath()
     {
-        return $this->uploadsDir . '/' . $this->filename;
+        $path = dirname($this->realPath) . '/thumbs';
+        if (!is_dir($path)) {
+            mkdir($path, 0666, true);
+        }
+        return $path;
     }
 
     protected function getThumbFilename($thumbWidth, $thumbHeight)
     {
+        $thumbPath = $this->makeThumbFilePath();
         list($filename, $extension) = explode('.', $this->filename);
-        $dirname = dirname($this->realPath) . '/thumbs';
-        if (!is_dir($dirname)) {
-            mkdir($dirname, 0666, true);
-        }
-        return sprintf('%s_%s_%s.%s', $dirname . '/' . $filename, $thumbWidth, $thumbHeight, $extension);
+        return sprintf('%s_%s_%s.%s', $thumbPath . '/' . $filename, $thumbWidth, $thumbHeight, $extension);
     }
 
     protected function rename(UploadedFile $file)
@@ -88,15 +112,19 @@ class UploaderService extends BaseService
         return $this->filename;
     }
 
-    protected function getFilePathByGroup($targetPath, $group, $filename)
+    protected function getFilePathByGroup($targetPath, $group)
     {
-        return substr($targetPath, strpos($targetPath, $group)) . '/' . $filename;
+        return substr($targetPath, strpos($targetPath, $group)) . '/' . $this->filename;
     }
 
     public function getTargetPath($group)
     {
         $group = trim($group, '/');
-        return $this->uploadsDir . '/' . $group . '/' . date('Ymd');
+        $targetPath = $this->uploadsDir . '/' . $group . '/' . date('Ymd');
+        if (!is_dir($targetPath)) {
+            mkdir($targetPath, 0666, true);
+        }
+        return $targetPath;
     }
 
 }

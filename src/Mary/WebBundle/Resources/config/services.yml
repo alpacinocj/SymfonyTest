@@ -38,8 +38,8 @@ services:
         arguments:
             $uploadsDir: '%uploads_dir%'
             $options:
-                thumb_switch: false
-                thumb_size: [{width: 80, height: 80}, {width: 200, height: 200}]
+                thumb_switch: true
+                thumb_size: [{width: 120, height: 90}, {width: 200, height: 150}]
 
     mary.webbundle.web_extension:
         class: Mary\WebBundle\Twig\Extension\WebExtension
