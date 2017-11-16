@@ -6,6 +6,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Mary\WebBundle\Service\AssetsService;
+use Mary\WebBundle\Service\UploaderService;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -24,5 +26,11 @@ class MaryWebExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        // 添加Bundle常用类并编译, 减少I/O操作
+        $this->addClassesToCompile([
+            AssetsService::class,
+            UploaderService::class
+        ]);
     }
 }

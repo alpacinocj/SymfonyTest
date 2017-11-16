@@ -4,7 +4,7 @@ security:
 
     encoders:
         Mary\WebBundle\Entity\User:
-            algorithm: bcrypt
+            algorithm: pbkdf2
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
