@@ -57,6 +57,13 @@ class UploaderService extends BaseService
 
     public function upload(UploadedFile $file, $group)
     {
+        // 检查Group是否已配置
+        if (!$this->checkGroup($group)) {
+            throw new FileException(sprintf('%s对应分组未正确配置', $group));
+        }
+
+        // 检查上传文件类型 TODO
+
         $filename = $this->rename($file);
         $targetPath = $this->makeTargetPath($group);
         $file->move($targetPath, $this->filename);
@@ -70,6 +77,11 @@ class UploaderService extends BaseService
         // file path will be store in database, eg: group/20171121/lsjfl2342ljlds.png
         $path = $this->getFilePathByGroup($targetPath, $group);
         return $path;
+    }
+
+    protected function checkGroup($group)
+    {
+        return in_array($group, array_keys($this->config['groups']));
     }
 
     protected function enableResize($group)
