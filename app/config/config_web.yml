@@ -1,0 +1,18 @@
+# Web application configuration
+mary_web:
+    # Upload files configuration
+    uploads:
+        allowed_mime_types: ['jpeg', 'jpg', 'png', 'gif']
+        groups:
+            avatars:
+                thumbnail_enabled: true
+                thumbnail_sizes:
+                    small:
+                        width: 120
+                        height: 90
+                    medium:
+                        width: 200
+                        height: 150
+                    large:
+                        width: 680
+                        height: 510

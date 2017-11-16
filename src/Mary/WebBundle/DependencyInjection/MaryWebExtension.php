@@ -28,7 +28,9 @@ class MaryWebExtension extends Extension
         $loader->load('services.yml');
 
         // 添加Bundle常用类并编译, 减少I/O操作
+        // 3.2新增 使用 patterns 来添加待编译类的选项自 Symfony 3.2 起被引入。
         $this->addClassesToCompile([
+            // 'MaryWebBundle\\Service\\',
             AssetsService::class,
             UploaderService::class
         ]);

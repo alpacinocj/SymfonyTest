@@ -24,6 +24,45 @@ class Configuration implements ConfigurationInterface
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
 
+        // MaryWebBundle自定义配置项
+        $rootNode
+            ->children()
+                ->arrayNode('uploads')
+                    ->info('Upload files configuration')
+                    ->isRequired()
+                    ->children()
+                        ->arrayNode('allowed_mime_types')
+                            ->isRequired()
+                            ->prototype('scalar')->end()
+                        ->end()
+                        ->arrayNode('groups')
+                            ->isRequired()
+                            ->prototype('array')
+                                ->children()
+                                    ->booleanNode('thumbnail_enabled')
+                                        ->isRequired()
+                                        ->defaultFalse()
+                                    ->end()
+                                    ->arrayNode('thumbnail_sizes')
+                                        ->isRequired()
+                                        ->prototype('array')
+                                            ->children()
+                                                ->integerNode('width')
+                                                    ->cannotBeEmpty()
+                                                ->end()
+                                                ->integerNode('height')
+                                                    ->cannotBeEmpty()
+                                                ->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+
         return $treeBuilder;
     }
 }

@@ -30,6 +30,7 @@ class ConfigController extends BaseController
 
     public function loadAction()
     {
-        echo 'load test'; die;
+        $config = Yaml::parse(file_get_contents(APP_CONFIG_PATH . 'config_web.yml'));
+        $this->dump($config);
     }
 }
