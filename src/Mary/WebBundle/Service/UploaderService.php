@@ -7,47 +7,46 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use JBZoo\Utils\Str as StrUtil;
+use Symfony\Component\Yaml\Yaml;
 
 class UploaderService extends BaseService
 {
-    private $uploadsDir;
+    private $config;
     private $options;
     private $filename;
     private $realPath;
 
-    public function __construct($uploadsDir, array $options)
+    public function __construct(array $options = [])
     {
-        $this->uploadsDir = rtrim($uploadsDir, '/');
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
         $this->options = $resolver->resolve($options);
+        $webConfig = Yaml::parse(file_get_contents(APP_CONFIG_PATH . 'config_web.yml'));
+        $webConfig = current($webConfig);
+        if (!isset($webConfig['uploads'])) {
+            throw new FileException('Uploads Configuration Invalid.');
+        }
+        $this->config = $webConfig['uploads'];
     }
 
     protected function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'thumb_switch' => false,
-            'thumb_size' => [
-                ['width' => '20', 'height' => '20']
-            ]
-        ]);
+        $resolver->setDefaults([]);
     }
 
-    public function openThumbSwitch()
+    public function enableThumbnail($group)
     {
-        $this->options['thumb_switch'] = true;
+        if (isset($this->config['groups'][$group])) {
+            $this->config['groups'][$group]['thumbnail_enabled'] = true;
+        }
         return $this;
     }
 
-    public function closeThumbSwitch()
+    public function disableThumbnail($group)
     {
-        $this->options['thumb_switch'] = false;
-        return $this;
-    }
-
-    public function setThumbSize(array $sizeArr)
-    {
-        $this->options['thumb_size'] = $sizeArr;
+        if (isset($this->config['groups'][$group])) {
+            $this->config['groups'][$group]['thumbnail_enabled'] = false;
+        }
         return $this;
     }
 
@@ -59,28 +58,40 @@ class UploaderService extends BaseService
     public function upload(UploadedFile $file, $group)
     {
         $filename = $this->rename($file);
-        $targetPath = $this->getTargetPath($group);
+        $targetPath = $this->makeTargetPath($group);
         $file->move($targetPath, $this->filename);
         $this->realPath = realpath($targetPath . '/' . $this->filename);
+
+        // resize if enable
+        if ($this->enableResize($group)) {
+            $this->resize($group);
+        }
+
         // file path will be store in database, eg: group/20171121/lsjfl2342ljlds.png
         $path = $this->getFilePathByGroup($targetPath, $group);
-        if ($this->options['thumb_switch']) {
-            $this->resize();
-        }
         return $path;
     }
 
-    protected function resize()
+    protected function enableResize($group)
     {
+        return isset($this->config['groups'][$group]['thumbnail_enabled']) && $this->config['groups'][$group]['thumbnail_enabled'];
+    }
+
+    protected function resize($group)
+    {
+        if (
+            !isset($this->config['groups'][$group]['thumbnail_sizes']) ||
+            empty($this->config['groups'][$group]['thumbnail_sizes'])
+        ) {
+            return false;
+        }
+
         try {
-            $imagick = new \Imagick($this->realPath);
-            $w = $imagick->getImageWidth();
-            $h = $imagick->getImageHeight();
-            foreach ($this->options['thumb_size'] as &$item) {
-                $item['width'] = $item['width'] ?? $w;
-                $item['height'] = $item['height'] ?? $h;
-                $imagick->resizeImage($item['width'], $item['height'], \Imagick::FILTER_LANCZOS, 1);
-                $thumbFile = $this->getThumbFilename($item['width'], $item['height']);
+            $imagick = new \Imagick();
+            foreach ($this->config['groups'][$group]['thumbnail_sizes'] as $size) {
+                $imagick->readImage($this->realPath);
+                $imagick->resizeImage($size['width'], $size['height'], \Imagick::FILTER_LANCZOS, 1);
+                $thumbFile = $this->getThumbFilename($size['width'], $size['height']);
                 $imagick->writeImage($thumbFile);
             }
             $imagick->clear();
@@ -88,6 +99,8 @@ class UploaderService extends BaseService
         } catch (\Exception $e) {
             throw new FileException($e->getMessage());
         }
+
+        return true;
     }
 
     protected function makeThumbFilePath()
@@ -117,10 +130,10 @@ class UploaderService extends BaseService
         return substr($targetPath, strpos($targetPath, $group)) . '/' . $this->filename;
     }
 
-    public function getTargetPath($group)
+    public function makeTargetPath($group)
     {
         $group = trim($group, '/');
-        $targetPath = $this->uploadsDir . '/' . $group . '/' . date('Ymd');
+        $targetPath = APP_UPLOADS_PATH . $group . '/' . date('Ymd');
         if (!is_dir($targetPath)) {
             mkdir($targetPath, 0666, true);
         }
