@@ -16,3 +16,12 @@ mary_web:
                     large:
                         width: 680
                         height: 510
+            products:
+                thumbnail_enabled: false
+                thumbnail_sizes:
+                    small:
+                        width: 100
+                        height: 75
+                    medium:
+                        width: 260
+                        height: 195

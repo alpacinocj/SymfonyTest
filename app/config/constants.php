@@ -16,7 +16,7 @@ defined('APP_OAUTH_SWITCH') or define('APP_OAUTH_SWITCH', false);
 // 定义项目根目录
 defined('APP_ROOT_PATH') or define('APP_ROOT_PATH', __DIR__ . '/../../');
 // 定义项目缓存目录
-defined('APP_CACHE_PATH') or define('APP_CACHE_PATH', APP_ROOT_PATH . 'app/cache/');
+defined('APP_CACHE_PATH') or define('APP_CACHE_PATH', APP_ROOT_PATH . 'app/cache/' . APP_ENV . '/');
 // 定义项目配置目录
 defined('APP_CONFIG_PATH') or define('APP_CONFIG_PATH', APP_ROOT_PATH . 'app/config/');
 // 定义项目日志目录

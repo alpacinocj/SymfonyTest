@@ -11,15 +11,10 @@ class HelloService extends BaseService
     protected $logger;
     protected $requestStack;
 
-    public function __construct($language, LoggerInterface $logger = null, RequestStack $requestStack)
+    public function __construct($language, LoggerInterface $logger)
     {
         $this->language = $language;
         $this->logger = $logger;
-        $this->requestStack = $requestStack;
-        $clientIp = $requestStack->getCurrentRequest()->getClientIp();
-        if (null !== $this->logger) {
-            $this->logger->debug($clientIp);
-        }
     }
 
     public function say($name)

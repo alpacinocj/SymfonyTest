@@ -3,6 +3,7 @@
 namespace Mary\WebBundle\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Asset\UrlPackage;
 use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
@@ -62,6 +63,7 @@ class AssetsService extends BaseService
             $basePath = $pathInfo['dirname'];
         }
         $class = UrlUtil::isAbsolute($assetPath) ? 'getUrlPackage' : 'getPathPackage';
+        /* @var PackageInterface $package */
         $package = $this->$class($basePath, $this->assetsVersion, $this->versionFormat);
         $url = $package->getUrl($pathInfo['basename']);
         $this->_reset();

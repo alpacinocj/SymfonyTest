@@ -7,10 +7,12 @@ use Mary\WebBundle\Service\AssetsService;
 class AssetsExtension extends \Twig_Extension
 {
     private $assetsService;
+    private $webConfig;
 
-    public function __construct(AssetsService $assetsService)
+    public function __construct(AssetsService $assetsService, array $webConfig)
     {
         $this->assetsService = $assetsService;
+        $this->webConfig = current($webConfig);
     }
 
     public function getFunctions()
@@ -57,17 +59,26 @@ class AssetsExtension extends \Twig_Extension
         return $this->assetImg($targetFile, 'uploads', $width, $height);
     }
 
-    public function uploadedThumbImg($targetFile, array $thumbSize)
+    public function uploadedThumbImg($targetFile, $thumbSizeKey)
     {
-        $size = array_values($thumbSize);
-        if (!isset($size[0]) || !isset($size[1])) {
-            return null;
+        $groupsConfig = $this->webConfig['uploads']['groups'];
+        $group = $this->_getUplodedFileGroup($targetFile);
+
+        if (!isset($groupsConfig[$group]['thumbnail_sizes'][$thumbSizeKey])) {
+            // return original image
+            return $this->uploadedImg($targetFile);
         }
-        $baseFilename = basename($targetFile);
-        list($filename, $extension) = explode('.', $baseFilename);
-        $thumbFile = sprintf('%s_%s_%s.%s', $filename, $size[0], $size[1], $extension);
-        $basePath = 'uploads/' . dirname($targetFile) . '/thumbs';
-        return $this->assetImg($thumbFile, $basePath);
+
+        $thumbSize = $groupsConfig[$group]['thumbnail_sizes'][$thumbSizeKey];
+        list($filename, $extension) = explode('.', basename($targetFile));
+        $thumbFile = sprintf('%s_%s_%s.%s', $filename, $thumbSize['width'], $thumbSize['height'], $extension);
+        $thumbFile = dirname($targetFile) . '/thumbs/' . $thumbFile;
+        return $this->uploadedImg($thumbFile);
+    }
+
+    private function _getUplodedFileGroup($targetFile)
+    {
+        return substr($targetFile, 0, strpos($targetFile, '/'));
     }
 
 }

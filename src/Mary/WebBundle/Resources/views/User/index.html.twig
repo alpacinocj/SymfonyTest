@@ -7,9 +7,9 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <p>{{ hello_service.say(app.user.username) }}</p>
         {% if app.user.avatar %}
-            {#<p>{{ uploadedImg(app.user.avatar, 50, 50) }}</p>#}
-            <p>{{ uploadedThumbImg(app.user.avatar, [120, 90]) }}</p>
-            {#<p>{{ uploadedThumbImg(app.user.avatar, [200, 150]) }}</p>#}
+            <p>{{ uploadedThumbImg(app.user.avatar, 'small') }}</p>
+            <p>{{ uploadedThumbImg(app.user.avatar, 'medium') }}</p>
+            <p>{{ uploadedThumbImg(app.user.avatar, 'large') }}</p>
         {% endif %}
     {% endif %}
 {% endblock %}

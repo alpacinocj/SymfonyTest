@@ -20,7 +20,7 @@ services:
 
     mary.webbundle.hello_service:
         class: Mary\WebBundle\Service\HelloService
-        arguments: ['%locale%', '@logger', '@request_stack']
+        arguments: ['%locale%', '@logger']
         tags:
             - { name: monolog.logger, channel: service }
 
@@ -48,7 +48,7 @@ services:
 
     mary.webbundle.assets_extension:
         class: Mary\WebBundle\Twig\Extension\AssetsExtension
-        arguments: ['@mary.webbundle.assets_service']
+        arguments: ['@mary.webbundle.assets_service', '%maryweb.config%']
         public: false
         tags:
             - { name: twig.extension }
