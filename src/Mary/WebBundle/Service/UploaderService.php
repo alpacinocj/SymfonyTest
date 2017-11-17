@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use JBZoo\Utils\Str as StrUtil;
 use Symfony\Component\Yaml\Yaml;
+use Mary\Common\Util\Debugger;
 
 class UploaderService extends BaseService
 {
@@ -62,7 +63,10 @@ class UploaderService extends BaseService
             throw new FileException(sprintf('%s对应分组未正确配置', $group));
         }
 
-        // 检查上传文件类型 TODO
+        // 检查上传文件类型
+        if (!$this->checkMimeType($file)) {
+            throw new FileException('该类型文件不允许上传');
+        }
 
         $filename = $this->rename($file);
         $targetPath = $this->makeTargetPath($group);
@@ -82,6 +86,14 @@ class UploaderService extends BaseService
     protected function checkGroup($group)
     {
         return in_array($group, array_keys($this->config['groups']));
+    }
+
+    protected function checkMimeType(UploadedFile $file)
+    {
+        if (isset($this->config['allowed_mime_types']) && !empty($this->config['allowed_mime_types'])) {
+            return in_array($file->getMimeType(), $this->config['allowed_mime_types']);
+        }
+        return true;
     }
 
     protected function enableResize($group)

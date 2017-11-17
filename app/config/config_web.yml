@@ -2,7 +2,7 @@
 mary_web:
     # Upload files configuration
     uploads:
-        allowed_mime_types: ['jpeg', 'jpg', 'png', 'gif']
+        allowed_mime_types: ['image/jpeg', 'image/png', 'image/gif']
         groups:
             avatars:
                 thumbnail_enabled: true
