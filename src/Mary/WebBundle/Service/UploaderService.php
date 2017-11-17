@@ -17,17 +17,17 @@ class UploaderService extends BaseService
     private $filename;
     private $realPath;
 
-    public function __construct(array $options = [])
+    public function __construct(array $webConfig, array $options = [])
     {
-        $resolver = new OptionsResolver();
-        $this->configureOptions($resolver);
-        $this->options = $resolver->resolve($options);
-        $webConfig = Yaml::parse(file_get_contents(APP_CONFIG_PATH . 'config_web.yml'));
         $webConfig = current($webConfig);
         if (!isset($webConfig['uploads'])) {
             throw new FileException('Uploads Configuration Invalid.');
         }
         $this->config = $webConfig['uploads'];
+
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+        $this->options = $resolver->resolve($options);
     }
 
     protected function configureOptions(OptionsResolver $resolver)

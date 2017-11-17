@@ -35,7 +35,7 @@ services:
 
     mary.webbundle.uploader_service:
         class: Mary\WebBundle\Service\UploaderService
-        arguments: []
+        arguments: ['%maryweb.config%']
 
     mary.webbundle.web_extension:
         class: Mary\WebBundle\Twig\Extension\WebExtension
