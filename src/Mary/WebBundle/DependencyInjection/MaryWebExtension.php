@@ -30,6 +30,7 @@ class MaryWebExtension extends Extension
 
         // 加载Bundle配置并设置为容器参数
         if (!$container->hasParameter('maryweb.config')) {
+            include_once __DIR__ . '/../../../../app/config/constants.php';
             $config = Yaml::parse(file_get_contents(APP_CONFIG_PATH . 'config_web.yml'));
             $container->setParameter('maryweb.config', $config);
         }
