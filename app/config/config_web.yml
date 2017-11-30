@@ -4,7 +4,25 @@ mary_web:
     uploads:
         allowed_mime_types: ['image/jpeg', 'image/png', 'image/gif']
         groups:
+            default:
+                watermark_enabled: true
+                watermark_target: 'symfonytest.com' # 文字或者图片路径
+                watermark_position: 'bottom-right'
+                thumbnail_enabled: true
+                thumbnail_sizes:
+                    small:
+                        width: 120
+                        height: 90
+                    medium:
+                        width: 200
+                        height: 150
+                    large:
+                        width: 680
+                        height: 510
             avatars:
+                watermark_enabled: false
+                watermark_target: ''
+                watermark_position: 'bottom'
                 thumbnail_enabled: true
                 thumbnail_sizes:
                     small:
@@ -17,6 +35,9 @@ mary_web:
                         width: 680
                         height: 510
             products:
+                watermark_enabled: false
+                watermark_target: ''
+                watermark_position: 'bottom'
                 thumbnail_enabled: false
                 thumbnail_sizes:
                     small:

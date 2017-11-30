@@ -1,0 +1,14 @@
+{% extends 'MaryWebBundle::layout.html.twig' %}
+
+{% block title %}{{ 'Upload'|trans}} - {{ parent() }}{% endblock %}
+
+{% block main %}
+    <p>Upload Test</p>
+    <div class="upload-wrapper">
+        <form action="{{ path('upload_test') }}" name="uploadForm" enctype="multipart/form-data" method="post">
+            <label for="file">上传文件</label>
+            <input type="file" name="file" id="file">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock %}

@@ -12,6 +12,11 @@ use Mary\Common\Util\Debugger;
 
 class UploaderService extends BaseService
 {
+    const WATERMARK_MAX_FONT_SIZE = 20;
+    const WATERMARK_MIN_FONT_SIZE = 8;
+    const WATERMARK_TEXT_PROPORTION = 0.04;
+    const WATERMARK_MARGIN_PROPORTION = 1.5;
+
     private $config;
     private $options;
     private $filename;
@@ -98,7 +103,12 @@ class UploaderService extends BaseService
 
     protected function enableResize($group)
     {
-        return isset($this->config['groups'][$group]['thumbnail_enabled']) && $this->config['groups'][$group]['thumbnail_enabled'];
+        return $this->config['groups'][$group]['thumbnail_enabled'];
+    }
+
+    protected function enableWatermark($group)
+    {
+        return $this->config['groups'][$group]['watermark_enabled'] && $this->config['groups'][$group]['watermark_target'];
     }
 
     protected function resize($group)
@@ -116,6 +126,20 @@ class UploaderService extends BaseService
                 $imagick->readImage($this->realPath);
                 $imagick->resizeImage($size['width'], $size['height'], \Imagick::FILTER_LANCZOS, 1);
                 $thumbFile = $this->getThumbFilename($size['width'], $size['height']);
+
+                // 加水印
+                if ($this->enableWatermark($group)) {
+                    if (file_exists($this->config['groups'][$group]['watermark_target'])) {
+                        // 图片水印 TODO
+
+                    } else {
+                        // 文字水印
+                        $draw = $this->addTextWatermark($imagick, $group);
+                    }
+
+                    $imagick->drawImage($draw);
+                }
+
                 $imagick->writeImage($thumbFile);
             }
             $imagick->clear();
@@ -125,6 +149,89 @@ class UploaderService extends BaseService
         }
 
         return true;
+    }
+
+    // 计算水印边距
+    private function _getWatermarkMargin()
+    {
+
+    }
+
+    // 计算合适水印字体大小
+    private function _getWatermarkFontSize($imgWidth, $imgHeight)
+    {
+        $min = min($imgWidth, $imgHeight);
+        $size = ceil($min * self::WATERMARK_TEXT_PROPORTION);
+        return ($size > self::WATERMARK_MAX_FONT_SIZE) ? self::WATERMARK_MAX_FONT_SIZE : ($size < self::WATERMARK_MIN_FONT_SIZE ? self::WATERMARK_MIN_FONT_SIZE : $size);
+    }
+
+    protected function addTextWatermark(\Imagick $imagick, $group)
+    {
+        $fontText = $this->config['groups'][$group]['watermark_target'];
+        $fontPos = strtolower($this->config['groups'][$group]['watermark_position']);
+
+        $width = $imagick->getImageWidth();
+        $height = $imagick->getImageHeight();
+
+        $draw = new \ImagickDraw();
+        $draw->setFillColor(new \ImagickPixel('white'));
+        $draw->setFontSize($this->_getWatermarkFontSize($width, $height));
+
+        // 计算字体边界
+        $metrics = $imagick->queryFontMetrics($draw, $fontText);
+        $textWidth = $metrics['textWidth'];
+        $textHeight = $metrics['textHeight'];
+
+        // 计算起始坐标点
+        $x = $y = 0;
+        switch ($fontPos) {
+            case 'center':
+                $x = ($width - $textWidth) / 2;
+                $y = ($height - $textHeight) / 2 + $textHeight / 2;
+                break;
+            case 'top':
+                $x = ($width - $textWidth) / 2;
+                $y = $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                break;
+            case 'right':
+                $x = $width - $textWidth - $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                $y = ($height - $textHeight) / 2 + $textHeight / 2;
+                break;
+            case 'bottom':
+                $x = ($width - $textWidth) / 2;
+                $y = $height - $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                break;
+            case 'left':
+                $x = $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                $y = ($height - $textHeight) / 2 + $textHeight / 2;
+                break;
+            case 'top-left':
+                $x = $y = $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                break;
+            case 'top-right':
+                $x = $width - $textWidth - $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                $y = $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                break;
+            case 'bottom-left':
+                $x = $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                $y = $height - $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                break;
+            case 'bottom-right':
+                $x = $width - $textWidth - $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                $y = $height - $textHeight * self::WATERMARK_MARGIN_PROPORTION;
+                break;
+            default:
+                break;
+        }
+
+        $draw->annotation($x, $y, $fontText);
+
+        return $draw;
+    }
+
+    protected function addImageWatermark()
+    {
+
     }
 
     protected function makeThumbFilePath()

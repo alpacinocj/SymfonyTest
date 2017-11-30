@@ -5,6 +5,11 @@
 {% block page_styles %}
     {{ webMacro.webAssetCss('login.css') }}
     {#{{ assetCss('https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css') }}#}
+    <style>
+        .login-title a {
+            margin-left: 20px;
+        }
+    </style>
 {% endblock %}
 
 {% block page_scripts %}
@@ -13,7 +18,7 @@
 {% endblock %}
 
 {% block main %}
-    <h3 class="login-title">Login page</h3>
+    <h3 class="login-title">Login page <a href="{{ path('register') }}">go to register ?</a></h3>
     {#{{ webMacro.webAssetImg('baidu.png', '500', '200') }}
     {{ assetImg('https://www.baidu.com/img/bd_logo1.png') }}#}
     <div class="login-form">

@@ -238,3 +238,11 @@ user_index:
 user_list:
     path: /user/list
     defaults: { _controller: MaryWebBundle:User:list }
+
+upload_index:
+    path: /upload
+    defaults: { _controller: MaryWebBundle:Upload:index }
+
+upload_test:
+    path: /upload/test
+    defaults: { _controller: MaryWebBundle:Upload:test }
